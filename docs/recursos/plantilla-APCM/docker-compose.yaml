@@ -1,0 +1,64 @@
+version: '3'
+
+# Services
+services:
+  # Apache + PHP
+  apache_php_composer:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: 'apache_php_composer-server'
+    volumes:
+      - ./.docker/apache/php.ini:/usr/local/etc/php/php.ini
+      - ./.docker/apache/httpd.conf:/etc/apache2/conf-available/httpd.conf
+      - ./src/:/var/www/html
+    expose:
+      - 80
+    links:
+      - db
+    networks:
+      - default
+    ports:
+      - '80:80'
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: pruebadb
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db:db
+    ports:
+      - 8000:80
+    environment:
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+volumes:
+  persistent:
+
+    null
+    # Lanzar con
+    # docker-compose up -d –build
+
+    # Ver los logs con
+    # docker-compose logs -f
+
+    # Bash: docker-compose exec apache_php_composer bash
+
+    # https://www.bornfight.com/blog/blog-lamp-docker-setup-with-php-8-and-mariadb-for-symfony-projects/
+
+    # https://www.cloudsavvyit.com/10528/how-to-use-docker-to-containerise-php-and-apache/
+
+    # el host de la base de datos es el nombre de la imagen que aparece entre paréntesis
+    # de la imagen 'mysql:8.0' ... por ejemplo (f95de814f6b4)
