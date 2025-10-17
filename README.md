@@ -1,3 +1,3 @@
 # PI-Marcos-Oscar
-![Logo del proyecto](docs/gantt-SA1.png)
-
+Aquí puedes ver el diagrama de Gantt del proyecto:
+![Diagrama de Gantt](docs/gantt-SA1.png)
