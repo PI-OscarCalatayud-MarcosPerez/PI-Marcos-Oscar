@@ -1,1 +1,45 @@
-<h1>frondend</h1>
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulari amb validació JS</title>
+</head>
+<body>
+
+<form id="formulari">
+  <label>Nom:
+    <input type="text" id="nom">
+    <span class="error" id="error-nom"></span>
+  </label>
+
+  <label>Correu:
+    <input type="email" id="correu">
+    <span class="error" id="error-correu"></span>
+  </label>
+
+  <label>Cicle formatiu:
+    <select id="cicle">
+      <option value="">Selecciona...</option>
+      <option value="DAM">DAM</option>
+      <option value="ASIX">ASIX</option>
+      <option value="DAW">DAW</option>
+    </select>
+    <span class="error" id="error-cicle"></span>
+  </label>
+
+  <label>Telèfon:
+    <input type="tel" id="telefon">
+    <span class="error" id="error-telefon"></span>
+  </label>
+
+  <label>
+    <input type="checkbox" id="consentiment"> Accepto el tractament de les dades
+    <span class="error" id="error-consentiment"></span>
+  </label>
+
+  <button type="submit">Enviar</button>
+</form>
+
+<script src="validacio.js"></script>
+</body>
+</html>
