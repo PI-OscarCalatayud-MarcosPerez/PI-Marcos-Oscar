@@ -1,0 +1,77 @@
+site_name: Projecte Intermodular 2DAW
+site_url: https://profesorandresmartos.github.io/PI/
+use_directory_urls: false
+
+
+nav:
+  - "Inici": "index.md"
+ # - Segundo apartado del menú lateral
+theme:
+  language: ca
+  favicon: imagenes/favicon.png
+  name: "material"
+  palette:
+    - scheme: default
+      primary: light blue
+      accent: "Teal"
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Canviar a mode nit
+    - scheme: slate 
+      primary: light blue
+      accent: "Teal"
+      toggle:
+        icon: material/toggle-switch
+        name: Canviar a mode dia
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: "imagenes/logofp.png"
+  features:
+    - header.autohide
+    - toc.integrate
+    - content.tabs.link
+    # - navigation.tabs
+    # - navigation.top
+
+extra:
+  search:
+    language: "ca"
+  social:
+    - icon: material/twitter
+      link: https://twitter.com/aitormedrano
+    - icon: material/email-edit
+      link: mailto:<alumne@alu.edu.gva.es>
+  analytics:
+    provider: google
+    property: G-X6D0LR7TC8
+
+plugins:
+  - search
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
+      linenums_style: pymdownx-inline
+  - pymdownx.superfences:
+      custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tilde
+  - pymdownx.smartsymbols
+  - footnotes
+  - meta
+  - sane_lists
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+copyright: 2025-2026  Alumne1, Alumne2 - Licencia CC BY-NC-SA
