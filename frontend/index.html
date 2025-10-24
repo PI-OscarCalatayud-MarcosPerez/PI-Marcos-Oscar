@@ -2,23 +2,23 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>Formulari amb validació JS</title>
+  <title>Formulario con validacion PHP</title>
 </head>
 <body>
 
-<form id="formulari">
-  <label>Nom:
-    <input type="text" id="nom">
+<form action="../backend/formulari.php" method="post" id="formulario">
+  <label>Nombre:
+    <input type="text" id="nombre" name="nombre">
     <span class="error" id="error-nom"></span>
   </label>
-
-  <label>Correu:
-    <input type="email" id="correu">
-    <span class="error" id="error-correu"></span>
+<br>
+  <label>Correo:
+    <input type="email" id="correo" name="correo">
+    <span class="error" id="error-correu" name ="correo"></span>
   </label>
-
-  <label>Cicle formatiu:
-    <select id="cicle">
+<br>
+  <label>Ciclo Formativo:
+    <select id="cicle" name="ciclo">
       <option value="">Selecciona...</option>
       <option value="DAM">DAM</option>
       <option value="ASIX">ASIX</option>
@@ -26,20 +26,20 @@
     </select>
     <span class="error" id="error-cicle"></span>
   </label>
-
-  <label>Telèfon:
-    <input type="tel" id="telefon">
-    <span class="error" id="error-telefon"></span>
+<br>
+  <label>Telefono:
+    <input type="tel" id="Telefono" name="telefono">
+    <span class="error" id="error-telefono"></span>
   </label>
-
+<br>
+<br>
   <label>
-    <input type="checkbox" id="consentiment"> Accepto el tractament de les dades
-    <span class="error" id="error-consentiment"></span>
+    <input type="checkbox" id="consentimiento" name="consentimiento"> Accepto el tratamiento de los dades
+    <span class="error" id="error-consentimiento"></span>
   </label>
-
+<br>
   <button type="submit">Enviar</button>
 </form>
 
-<script src="validacio.js"></script>
 </body>
 </html>
