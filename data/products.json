@@ -1,0 +1,58 @@
+{
+    "productes": [
+        {
+            "id": 1,
+            "sku": "A001",
+            "nom": "Cafetera Premium",
+            "descripcio": "Cafetera automàtica amb molinet integrat",
+            "img": "img\/cafetera.jpg",
+            "preu": 129.99,
+            "estoc": 15
+        },
+        {
+            "id": 2,
+            "sku": "A002",
+            "nom": "Tetera Elèctrica",
+            "descripcio": "Tetera d’acer inoxidable",
+            "img": "img\/tetera.jpg",
+            "preu": 59.95,
+            "estoc": 10
+        },
+        {
+            "id": 3,
+            "sku": "A003",
+            "nom": "Torradora Pro",
+            "descripcio": "Torra fins a 4 llesques",
+            "img": "img\/torradora.jpg",
+            "preu": 89.9,
+            "estoc": 25
+        },
+        {
+            "id": 5,
+            "sku": "B002",
+            "nom": "Espremedora",
+            "descripcio": "Per a sucs naturals",
+            "img": "img\/espremedora.jpg",
+            "preu": 45,
+            "estoc": 8
+        },
+        {
+            "id": 7,
+            "sku": "C002",
+            "nom": "Molinet de Cafè",
+            "descripcio": "Fulles d'acer",
+            "img": "img\/molinet.jpg",
+            "preu": 35.5,
+            "estoc": 0
+        },
+        {
+            "id": 8,
+            "sku": "C003",
+            "nom": "Sandvitxera",
+            "descripcio": "Plaques antiadherents",
+            "img": "img\/sandvitxera.jpg",
+            "preu": 25,
+            "estoc": 30
+        }
+    ]
+}

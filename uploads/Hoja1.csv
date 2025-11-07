@@ -1,0 +1,9 @@
+id,sku,nom,descripcio,img,preu,estoc
+1,A001,Cafetera Premium,Cafetera automàtica amb molinet integrat,img/cafetera.jpg,129.99,15
+2,A002,Tetera Elèctrica,Tetera d’acer inoxidable,img/tetera.jpg,59.95,10
+3,A003,Torradora Pro,Torra fins a 4 llesques,img/torradora.jpg,89.90,25
+4,B001,Batedora de mà,Motor de 800W,img/batedora.jpg,0,12
+5,B002,Espremedora,Per a sucs naturals,img/espremedora.jpg,45.00,8
+6,C001,,Aquesta fila té el nom buit,img/buit.jpg,99.99,5
+7,C002,Molinet de Cafè,Fulles d'acer,img/molinet.jpg,35.50,0
+8,C003,Sandvitxera,Plaques antiadherents,img/sandvitxera.jpg,25.00,30
