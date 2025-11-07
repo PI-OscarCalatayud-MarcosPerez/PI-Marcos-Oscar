@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importación de Productos</title>
+</head>
+<body>
+
+    <h1>Importación de Productos</h1>
+    
+    <form action="importar_excel.php" method="POST" enctype="multipart/form-data">
+        
+        <p>
+            <label for="arxiuExcel">Seleccionar tipo de archivo (.xlsx, .xls, .csv):</label>
+        </p>
+        <p>
+            <input type="file" name="arxiuExcel" id="arxiuExcel" required accept=".xlsx, .xls, .csv" > </p>
+        <p>
+            <button type = "submit" name = "btnSubir" value="Subir">Importar Productes</button>
+        </p>
+    </form>
+
+</body>
+</html>
