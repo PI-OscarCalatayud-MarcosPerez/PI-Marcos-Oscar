@@ -1,185 +1,217 @@
 <?php
-/*
- * ==========================================================
- * C1 - SCRIPT D'IMPORTACIÓ (FLUX CORRECTE PER A DOCKER)
- * ==========================================================
- * PAS 1-4: Rep i valida l'Excel.
- * PAS 5: Genera l'arxiu /data/products.json.
- * (El 'jsonserver' el detectarà automàticament gràcies a '--watch')
- * PAS 6 (Eliminat): El cURL era redundant.
- * PAS 7: Mostra el resultat.
- */
-
-// Configuració inicial i gestió d'errors
+// Mostramos todos los errores para depuración
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// 1. SETUP I DEPENDÈNCIES
-require __DIR__ . '/vendor/autoload.php';
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-// 2. DEFINICIÓ DE RUTES
+// 2. DEFINICIÓN DE RUTAS
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');
 define('DATA_DIR', __DIR__ . '/../data/');
 define('JSON_FILE', DATA_DIR . 'products.json');
 
-// Definim les columnes que ESPEREM trobar
-$expectedHeaders = array('id', 'sku', 'nom', 'descripcio', 'img', 'preu', 'estoc');
+// Definimos las columnas que ESPERAMOS encontrar
+$expectedHeaders = [
+    'id', 'nombre', 'descripcion', 'precio', 'img', 'estoc', 'categoria'
+];
 
-// Arrays per a la comunicació
-$messages = array();
-$errors = array();
+// Arrays para la comunicación con el usuario
+$messages = [];
+$errors = [];
 $importedCount = 0;
-$rowErrors = array();
+$rowErrors = [];
 
-// 3. GESTIÓ DE LA PETICIÓ (POST)
+// 3. GESTIÓN DE LA PETICIÓN (POST)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // --- PAS 1: Validar permisos ---
+    // --- PASO 1: Validar permisos (sin cambios) ---
     if (!is_dir(UPLOAD_DIR) || !is_writable(UPLOAD_DIR)) {
-        $errors[] = "Error: La carpeta 'uploads' ('" . UPLOAD_DIR . "') no existeix o no té permisos d'escriptura.";
+        $errors[] = "Error: La carpeta 'uploads' ('" . UPLOAD_DIR . "') no existe o no tiene permisos de escritura.";
     }
     if (!is_dir(DATA_DIR) || !is_writable(DATA_DIR)) {
-        $errors[] = "Error: La carpeta 'data' ('" . DATA_DIR . "') no existeix o no té permisos d'escriptura.";
+        $errors[] = "Error: La carpeta 'data' ('" . DATA_DIR . "') no existe o no tiene permisos de escritura.";
     }
 
-    // --- PAS 2: Rebre i desar el fitxer (Amb Nom Únic) ---
+    // --- PASO 2: Recibir y guardar el fichero (sin cambios) ---
     if (count($errors) == 0) {
-        if (!isset($_FILES['arxiuExcel']) || $_FILES['arxiuExcel']['error'] != UPLOAD_ERR_OK) {
-            $errors[] = "Error en la pujada del fitxer. Codi d'error: " . $_FILES['arxiuExcel']['error'];
+        if (!isset($_FILES['arxiuCsv'])) {
+            $errors[] = "Error: No se ha recibido ningún fichero. Esto puede deberse a que el fichero es demasiado grande (supera 'post_max_size' de PHP).";
+        } elseif ($_FILES['arxiuCsv']['error'] != UPLOAD_ERR_OK) {
+            $errors[] = "Error en la subida del fichero. Código de error PHP: " . $_FILES['arxiuCsv']['error'];
         } else {
-            $fileTmpPath = $_FILES['arxiuExcel']['tmp_name'];
-            $nomOriginal = basename($_FILES['arxiuExcel']['name']);
-            
-            $extensio = '';
-            $partsNom = explode('.', $nomOriginal);
-            if (count($partsNom) > 1) {
-                $extensio = $partsNom[count($partsNom) - 1];
-            }
-            $nomFitxerUnic = 'import_' . time() . '.' . $extensio;
-            $uploadFilePath = UPLOAD_DIR . $nomFitxerUnic;
+            $fileTmpPath = $_FILES['arxiuCsv']['tmp_name'];
+            $nomOriginal = basename($_FILES['arxiuCsv']['name']);
+            $extensio = strtolower(pathinfo($nomOriginal, PATHINFO_EXTENSION));
 
-            if (move_uploaded_file($fileTmpPath, $uploadFilePath)) {
-                $messages[] = "Fitxer '{$nomOriginal}' pujat i desat com '{$nomFitxerUnic}'.";
+            if ($extensio != 'csv') {
+                $errors[] = "Error: El fichero debe ser de tipo .csv. Has subido un '." . $extensio . "'";
             } else {
-                $errors[] = "No s'ha pogut moure el fitxer pujat a 'uploads'.";
+                $nomFitxerUnic = 'import_' . time() . '.csv';
+                $uploadFilePath = UPLOAD_DIR . $nomFitxerUnic;
+
+                if (move_uploaded_file($fileTmpPath, $uploadFilePath)) {
+                    $messages[] = "Fichero '{$nomOriginal}' subido y guardado como '{$nomFitxerUnic}'.";
+                } else {
+                    $errors[] = "No se ha podido mover el fichero subido a 'uploads'.";
+                }
             }
         }
     }
 
-    // --- PAS 3, 4, 5: Processar el fitxer ---
+    // --- PASO 3, 4, 5: Procesar el fichero (LÓGICA CSV) ---
     if (count($errors) == 0) {
+        $productes = [];
+        $formatoCorregido = false; // Variable para saber si el CSV está mal
         
-        // --- PAS 3: Llegeix l’Excel ---
-        $spreadsheet = IOFactory::load($uploadFilePath);
-        $sheet = $spreadsheet->getActiveSheet();
-        $data = $sheet->toArray(null, true, false, false); 
-
-        if (empty($data)) {
-            $errors[] = "L'arxiu Excel està buit.";
-        } else {
+        if (($handle = fopen($uploadFilePath, "r")) !== FALSE) {
             
-            // --- Validar capçaleres (manera arcaica) ---
-            $headerRow = $data[0]; 
-            unset($data[0]); 
-            $headers = array();
-            foreach ($headerRow as $headerCell) {
-                $headers[] = strtolower(trim($headerCell));
-            }
-            $headerMap = array();
-            $columnaIndex = 0;
-            foreach ($headers as $headerName) {
-                $headerMap[$headerName] = $columnaIndex;
-                $columnaIndex++;
-            }
-            $missing = array();
-            foreach ($expectedHeaders as $expected) {
-                if (!isset($headerMap[$expected])) {
-                    $missing[] = $expected;
-                }
-            }
-
-            if (count($missing) > 0) {
-                $errors[] = "Capçaleres incorrectes. Falten columnes: " . implode(', ', $missing);
+            // --- Validar cabeceras ---
+            $headerRow = fgetcsv($handle, 1000, ","); 
+            
+            if ($headerRow === FALSE) {
+                $errors[] = "No se ha podido leer la cabecera del CSV o el fichero está vacío.";
             } else {
                 
-                // --- PAS 4: Validar Dades ---
-                $productes = array();
-                $rowNum = 1; 
-                
-                foreach ($data as $row) {
-                    $rowNum++; 
-                    $filaBuida = true;
-                    for ($i = 0; $i < count($row); $i++) {
-                        if ($row[$i] != null && $row[$i] != '') { $filaBuida = false; break; }
-                    }
-                    if ($filaBuida) { continue; }
-
-                    $sku = trim($row[$headerMap['sku']]);
-                    $nom = trim($row[$headerMap['nom']]);
-                    $preu_raw = $row[$headerMap['preu']];
-                    $preu = (float)str_replace(',', '.', $preu_raw);
-                    $estoc = (int)$row[$headerMap['estoc']];
-                    $id = (int)$row[$headerMap['id']];
-
-                    $errorDeFila = false;
-                    if (empty($sku) || empty($nom)) {
-                        $rowErrors[] = "Fila $rowNum: SKU o Nom estan buits. Fila ignorada.";
-                        $errorDeFila = true;
-                    }
-                    if ($preu <= 0 && $errorDeFila == false) {
-                        $rowErrors[] = "Fila $rowNum (SKU: $sku): El preu '{$preu_raw}' és invàlid. Fila ignorada.";
-                        $errorDeFila = true;
-                    }
-                    if ($id <= 0 && $errorDeFila == false) {
-                         $rowErrors[] = "Fila $rowNum (SKU: $sku): L'ID '{$id}' és invàlid. Fila ignorada.";
-                         $errorDeFila = true;
-                    }
-
-                    if ($errorDeFila == false) {
-                        $producte = array();
-                        $producte['id'] = $id;
-                        $producte['sku'] = $sku;
-                        $producte['nom'] = $nom;
-                        $producte['descripcio'] = trim($row[$headerMap['descripcio']]);
-                        $producte['img'] = trim($row[$headerMap['img']]);
-                        $producte['preu'] = $preu;
-                        $producte['estoc'] = $estoc;
-                        
-                        $productes[] = $producte;
-                    }
-                } // Fi del 'foreach' de dades
-
-                // --- PAS 5: Generar l'arxiu JSON ---
-                $jsonData = array('productes' => $productes);
-                $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); 
-                
-                // Escriure el nou fitxer JSON (sobreescrivint directament)
-                if (file_put_contents(JSON_FILE, $jsonString) === false) {
-                    $errors[] = "Error crític: No s'ha pogut escriure el fitxer 'products.json' a '" . DATA_DIR . "'.";
-                } else {
-                    $importedCount = count($productes);
-                    
-                    // --- PAS 6: ELIMINAT (cURL) ---
-                    // El servidor 'jsonserver' s'actualitza sol gràcies a '--watch'
-
-                    // --- PAS 7: Missatges d'èxit final ---
-                    $messages[] = "PAS 5: Fitxer 'products.json' generat (sobreescrit) correctament.";
-                    $messages[] = "(El JSON Server s'hauria d'actualitzar automàticament.)";
-                    $messages[] = "✅ Importació completada amb èxit!";
-                    $messages[] = "Total de productes importats: {$importedCount}";
+                // !! MEJORA "ANTI-COMILLAS" !!
+                // Comprobamos si fgetcsv solo ha leído 1 columna (porque todo estaba entre "...")
+                if (count($headerRow) === 1) {
+                    $formatoCorregido = true; // Marcamos que el CSV está mal
+                    // Quitamos las comillas del principio y final de la línea
+                    $lineaLimpia = trim($headerRow[0], '"');
+                    // Volvemos a procesar esa línea limpia como un CSV
+                    $headerRow = str_getcsv($lineaLimpia, ",");
                 }
+                
+                // MEJORA: Limpiamos el BOM (caracter invisible) de la primera columna
+                $headerRow[0] = preg_replace('/^\xEF\xBB\xBF/', '', $headerRow[0]);
+
+                // Limpiamos y mapeamos las cabeceras
+                $headers = array_map('strtolower', array_map('trim', $headerRow));
+                
+                $headerMap = [];
+                $columnaIndex = 0;
+                foreach ($headers as $headerName) {
+                    $headerMap[$headerName] = $columnaIndex;
+                    $columnaIndex++;
+                }
+
+                $missing = [];
+                foreach ($expectedHeaders as $expected) {
+                    if (!isset($headerMap[$expected])) {
+                        $missing[] = $expected;
+                    }
+                }
+
+                if (count($missing) > 0) {
+                    $errors[] = "Cabeceras incorrectas. Faltan columnas: " . implode(', ', $missing);
+                } else {
+                    
+                    // --- PASO 4: Validar Datos (Leemos el resto de filas) ---
+                    $rowNum = 1; 
+                    
+                    while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        $rowNum++;
+
+                        // !! MEJORA "ANTI-COMILLAS" !!
+                        // Si detectamos el formato erróneo, lo arreglamos en cada fila
+                        if ($formatoCorregido && count($row) === 1) {
+                            $lineaLimpia = trim($row[0], '"');
+                            $row = str_getcsv($lineaLimpia, ",");
+                            
+                            // fgetcsv maneja las comillas dobles ("") de las descripciones,
+                            // pero str_getcsv no lo hace igual. Las arreglamos:
+                            foreach ($row as $k => $v) {
+                                $row[$k] = str_replace('""', '"', $v);
+                            }
+                        }
+
+                        if (implode('', $row) == '') {
+                            continue;
+                        }
+
+                        // Comprobamos que el número de columnas coincida (evita errores)
+                        if (count($row) != count($headers)) {
+                            $rowErrors[] = "Fila $rowNum: El número de columnas no coincide con la cabecera. Fila ignorada.";
+                            continue;
+                        }
+
+                        // Leemos todas las dadas
+                        $id = (int)$row[$headerMap['id']];
+                        $nom = trim($row[$headerMap['nombre']]);
+                        $preu_raw = $row[$headerMap['precio']];
+                        $preu = (float)str_replace(',', '.', $preu_raw);
+                        $estoc_raw = $row[$headerMap['estoc']];
+                        $categoria = trim($row[$headerMap['categoria']]);
+
+                        
+                        $errorDeFila = false;
+                        if (empty($nom)) {
+                            $rowErrors[] = "Fila $rowNum: 'nombre' está vacío. Fila ignorada.";
+                            $errorDeFila = true;
+                        }
+                        if ($id <= 0 && $errorDeFila == false) {
+                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El ID '{$id}' es inválido. Fila ignorada.";
+                            $errorDeFila = true;
+                        }
+                        if ($preu <= 0 && $errorDeFila == false) {
+                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El precio '{$preu_raw}' es inválido. Fila ignorada.";
+                            $errorDeFila = true;
+                        }
+                        
+                        if (!is_numeric($estoc_raw) || (int)$estoc_raw < 0) {
+                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El 'estoc' ('{$estoc_raw}') no es un número válido o es negativo. Fila ignorada.";
+                            $errorDeFila = true;
+                        }
+                        $estoc = (int)$estoc_raw;
+
+                        if (empty($categoria) && $errorDeFila == false) {
+                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): La 'categoria' está vacía. Fila ignorada.";
+                            $errorDeFila = true;
+                        }
+
+                        if ($errorDeFila == false) {
+                            $producte = [];
+                            $producte['id'] = $id;
+                            $producte['sku'] = 'JUEGO-' . $id;
+                            $producte['nom'] = $nom;
+                            $producte['descripcio'] = trim($row[$headerMap['descripcion']]);
+                            $producte['img'] = trim($row[$headerMap['img']]);
+                            $producte['preu'] = $preu;
+                            $producte['estoc'] = $estoc;
+                            $producte['categoria'] = $categoria;
+                            
+                            $productes[] = $producte;
+                        }
+                    } 
+                    fclose($handle);
+                } 
             } 
-        } 
+        } else {
+            $errors[] = "No se ha podido abrir el fichero CSV subido.";
+        }
+
+        // --- PASO 5: Generar JSON ---
+        if (count($errors) == 0 && $handle !== FALSE && count($missing) == 0) {
+            $jsonData = ['productes' => $productes];
+            $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); 
+            
+            if (file_put_contents(JSON_FILE, $jsonString) === false) {
+                $errors[] = "Error crítico: No se ha podido escribir el fichero 'products.json' en '" . DATA_DIR . "'.";
+            } else {
+                $importedCount = count($productes);
+                $messages[] = "PASO 5: Fichero 'products.json' generado (sobrescrito) correctamente.";
+                $messages[] = "(El JSON Server debería actualizarse automáticamente.)";
+                $messages[] = "✅ ¡Importación completada con éxito!";
+                $messages[] = "Total de productos importados: {$importedCount}";
+            }
+        }
     } 
 } 
 
 ?>
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>C1 - Importació de Productes (Flux Correcte)</title>
+    <title>C1 - Importación de Productos (CSV)</title>
     <style>
         body { font-family: sans-serif; margin: 2em; line-height: 1.6; background-color: #f4f4f4; }
         h1 { color: #333; }
@@ -195,12 +227,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-    <h1>Importar Productes des d'Excel</h1>
-    <p>Aquest script pujarà un fitxer Excel, el processarà i generarà el <strong>/data/products.json</strong> per al JSON Server.</p>
+    <h1>Importar Productos desde CSV</h1>
+    <p>Este script subirá un fichero CSV, lo procesará y generará el <strong>/data/products.json</strong> para el JSON Server.</p>
 
     <?php if (count($messages) > 0): ?>
         <div class="summary success">
-            <strong>Resum de la Importació:</strong>
+            <strong>Resumen de la Importación:</strong>
             <ul>
                 <?php foreach ($messages as $msg): ?>
                     <li><?php echo htmlspecialchars($msg); ?></li>
@@ -211,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <?php if (count($rowErrors) > 0): ?>
         <div class="summary error">
-            <strong>Errors Detectats (Files ignorades):</strong>
+            <strong>Errores Detectados (Filas ignoradas):</strong>
             <ul>
                 <?php foreach ($rowErrors as $err): ?>
                     <li><?php echo htmlspecialchars($err); ?></li>
@@ -220,9 +252,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     <?php endif; ?>
 
-    <?php if (count($errors) > 0 && count($rowErrors) == 0): // Mostra errors fatals ?>
+    <?php if (count($errors) > 0): // Muestra errores fatals ?>
         <div class="summary error">
-            <strong>Errors Fatals:</strong>
+            <strong>Errores Fatales:</strong>
             <ul>
                 <?php foreach ($errors as $err): ?>
                     <li><?php echo htmlspecialchars($err); ?></li>
@@ -232,24 +264,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 
     <form action="" method="POST" enctype="multipart/form-data">
-        <label for="arxiuExcel"><strong>Selecciona el fitxer Excel (.xlsx, .xls):</strong></label>
+        <label for="arxiuCsv"><strong>Selecciona el fichero CSV (.csv):</strong></label>
         <br><br>
-        <p>El fitxer ha de contenir les columnes (en qualsevol ordre):<br>
+        <p>El fichero debe contener las columnas (en cualquier orden):<br>
            <strong><?php echo implode(', ', $expectedHeaders); ?></strong>
-        </p>
+        </srp>
         
-        <input type="file" name="arxiuExcel" id="arxiuExcel" accept=".xlsx,.xls,.csv" required>
+        <input type="file" name="arxiuCsv" id="arxiuCsv" accept=".csv" required>
         <br><br>
-        <input type="submit" value="Pujar i Processar">
+        <input type="submit" value="Subir y Procesar">
     </form>
 
     <?php if ($importedCount > 0): ?>
     <div class="post-import">
-        <h3>Verificació al JSON Server</h3>
-        <p>S'han importat <strong><?php echo $importedCount; ?></strong> productes. Pots verificar-los als enllaços:</p>
+        <h3>Verificación en el JSON Server</h3>
+        <p>Se han importado <strong><?php echo $importedCount; ?></strong> productos. Puedes verificarlos en los enlaces:</p>
         <ul>
-            <li><a href="http://localhost:3000/productes" target="_blank">Veure tots els productes (http://localhost:3000/productes)</a></li>
-            <li><a href="http://localhost:3000/productes/1" target="_blank">Veure el producte amb ID 1 (si existeix)</a></li>
+            <li><a href="http://localhost:3002/productes" target="_blank">Ver todos los productos (http://localhost:3002/productes)</a></li>
+            <li><a href="http://localhost:3002/productes/?id=1" target="_blank">Ver el producto con ID 1 (si existe)</a></li>
         </ul>
     </div>
     <?php endif; ?>

@@ -2,57 +2,83 @@
     "productes": [
         {
             "id": 1,
-            "sku": "A001",
-            "nom": "Cafetera Premium",
-            "descripcio": "Cafetera automàtica amb molinet integrat",
-            "img": "img\/cafetera.jpg",
-            "preu": 129.99,
-            "estoc": 15
+            "sku": "JUEGO-1",
+            "nom": "Super Mario Odyssey",
+            "descripcio": "Aventura de plataformas 3D para Nintendo Switch.",
+            "img": "img\/mario_odyssey.jpg",
+            "preu": 49.99,
+            "estoc": 50,
+            "categoria": "Plataformas"
         },
         {
             "id": 2,
-            "sku": "A002",
-            "nom": "Tetera Elèctrica",
-            "descripcio": "Tetera d’acer inoxidable",
-            "img": "img\/tetera.jpg",
+            "sku": "JUEGO-2",
+            "nom": "Elden Ring",
+            "descripcio": "Juego de rol de acción de mundo abierto de FromSoftware.",
+            "img": "img\/elden_ring.jpg",
             "preu": 59.95,
-            "estoc": 10
+            "estoc": 30,
+            "categoria": "RPG"
         },
         {
             "id": 3,
-            "sku": "A003",
-            "nom": "Torradora Pro",
-            "descripcio": "Torra fins a 4 llesques",
-            "img": "img\/torradora.jpg",
-            "preu": 89.9,
-            "estoc": 25
+            "sku": "JUEGO-3",
+            "nom": "Stardew Valley",
+            "descripcio": "Simulador de granja y vida indie con elementos RPG.",
+            "img": "img\/stardew.jpg",
+            "preu": 14.99,
+            "estoc": 100,
+            "categoria": "Simulación"
+        },
+        {
+            "id": 4,
+            "sku": "JUEGO-4",
+            "nom": "Hades",
+            "descripcio": "Roguelite de acción trepidante basado en la mitología griega.",
+            "img": "img\/hades.jpg",
+            "preu": 24.99,
+            "estoc": 75,
+            "categoria": "Roguelite"
         },
         {
             "id": 5,
-            "sku": "B002",
-            "nom": "Espremedora",
-            "descripcio": "Per a sucs naturals",
-            "img": "img\/espremedora.jpg",
-            "preu": 45,
-            "estoc": 8
+            "sku": "JUEGO-5",
+            "nom": "Cyberpunk 2077",
+            "descripcio": "RPG de mundo abierto y acción-aventura ambientado en Night City.",
+            "img": "img\/cyberpunk_2077.jpg",
+            "preu": 39.99,
+            "estoc": 40,
+            "categoria": "RPG"
+        },
+        {
+            "id": 6,
+            "sku": "JUEGO-6",
+            "nom": "The Witcher 3: Wild Hunt",
+            "descripcio": "RPG de mundo abierto con una historia profunda y misiones memorables.",
+            "img": "img\/witcher_3.jpg",
+            "preu": 29.99,
+            "estoc": 60,
+            "categoria": "RPG"
         },
         {
             "id": 7,
-            "sku": "C002",
-            "nom": "Molinet de Cafè",
-            "descripcio": "Fulles d'acer",
-            "img": "img\/molinet.jpg",
-            "preu": 35.5,
-            "estoc": 0
+            "sku": "JUEGO-7",
+            "nom": "Resident Evil 4 (Remake)",
+            "descripcio": "Remake del clásico survival horror con gráficos y jugabilidad modernizados.",
+            "img": "img\/re4_remake.jpg",
+            "preu": 54.99,
+            "estoc": 25,
+            "categoria": "Survival Horror"
         },
         {
             "id": 8,
-            "sku": "C003",
-            "nom": "Sandvitxera",
-            "descripcio": "Plaques antiadherents",
-            "img": "img\/sandvitxera.jpg",
-            "preu": 25,
-            "estoc": 30
+            "sku": "JUEGO-8",
+            "nom": "Hollow Knight",
+            "descripcio": "Aventura Metroidvania 2D dibujada a mano en un vasto reino de insectos.",
+            "img": "img\/hollow_knight.jpg",
+            "preu": 14.99,
+            "estoc": 80,
+            "categoria": "Metroidvania"
         }
     ]
 }

@@ -21,6 +21,7 @@ services:
       - ./backend:/var/www/html
       - ./uploads:/var/www/uploads  
       - ./data:/var/www/data
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
       - DB_HOST=db
       - DB_NAME=pi_db
