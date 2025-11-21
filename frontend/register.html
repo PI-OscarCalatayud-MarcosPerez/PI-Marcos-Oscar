@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/auth.css">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+
+    <main>
+        <h2>Registro de Nuevo Usuario</h2>
+
+        <form action="/backend/auth/register.php" method="POST">
+            <div>
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <button type="submit">Registrarse</button>
+            </div>
+        </form>
+        
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
+
+    </main>
+
+</body>
+</html>

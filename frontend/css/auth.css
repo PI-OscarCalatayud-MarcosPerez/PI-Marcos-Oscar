@@ -1,0 +1,90 @@
+/* frontend/css/auth.css */
+
+body {
+    font-family: "Rubik", sans-serif;
+    background-color: #eaf2f2; /* Mismo fondo que tu web */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    margin: 0;
+}
+
+main {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(14, 39, 63, 0.15); /* Sombra suave */
+    width: 100%;
+    max-width: 400px; /* Ancho máximo de la tarjeta */
+}
+
+h2 {
+    text-align: center;
+    color: #0e273f; /* Azul corporativo */
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #0e273f;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #0e273f;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #fa4841; /* Rojo corporativo */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #d63a34;
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+a {
+    color: #fa4841;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}

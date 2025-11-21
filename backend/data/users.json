@@ -1,0 +1,13 @@
+{
+    "usuaris": [
+        {
+            "nom_usuari": "marcos",
+            "contrasenya": "$2y$10$RntKZzY6d6DiqNyQM89FxOls1vRGAwuBoTbhzm2RlcIaYBffX7XVu",
+            "email": "correo@mail.com",
+            "nom": "",
+            "cognoms": "",
+            "data_registre": "2025-11-21T16:01:16+00:00",
+            "id": 1
+        }
+    ]
+}
