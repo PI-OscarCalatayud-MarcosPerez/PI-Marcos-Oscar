@@ -1,0 +1,566 @@
+/* --- ESTILOS GENERALES Y GRID PRINCIPAL (BODY) --- */
+body {
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #eaf2f2;
+  display: grid;
+  grid-template-rows: 33px 92px auto 500px 500px 500px 382px 180px;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-areas:
+    "barra-aviso"
+    "header"
+    "inicio"
+    "carrusel1"
+    "carrusel2"
+    "carrusel3"
+    "categorias"
+    "footer";
+}
+
+/* --- BARRA DE AVISO --- */
+.aviso-slider {
+  grid-area: barra-aviso;
+  background-color: #515151; 
+  width: 100%;
+  overflow: hidden; 
+  height: 33px; 
+}
+
+.aviso-slider-content {
+  animation: slide-avisos 9s infinite;
+}
+
+.aviso-slider-content div {
+  margin: 0;
+  padding: 6px 0;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  height: 33px; 
+  box-sizing: border-box; 
+}
+
+/* --- LOS KEYFRAMES  --- */
+@keyframes slide-avisos {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(0); }
+  33.3% { transform: translateY(-33px); }
+  63.3% { transform: translateY(-33px); }
+  66.6% { transform: translateY(-66px); }
+  97% { transform: translateY(-66px); }
+  100% { transform: translateY(-99px); }
+}
+
+/* --- CABECERA (HEADER) --- */
+header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 92px;
+  grid-template-areas: "header-img header-nav header-busqueda";
+  align-items: center;
+  background-color: #0e273f;
+  margin: 0;
+  padding: 0 100px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 3; 
+}
+
+/* --- Iconos de Header (con hover) --- */
+.users {
+  grid-area: header-busqueda;
+  height: 37px;
+  width: 71px;
+  position: relative;
+  left: 230px;
+  background-image: url("../img/usuario.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.carro {
+  grid-area: header-busqueda;
+  height: 33px;
+  width: 37px;
+  position: relative;
+  left: 300px;
+  background-image: url("../img/carrito.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.users:hover {
+  background-image: url("../img/usuario1.png");
+  cursor: pointer;
+}
+
+.carro:hover {
+  background-image: url("../img/carrito1.png");
+  cursor: pointer;
+}
+
+header img {
+  grid-area: header-img;
+  height: 80px;
+  width: 215px;
+}
+
+header nav {
+  grid-area: header-nav;
+  justify-self: center;
+}
+
+.enlaces_navegacion {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.enlaces_navegacion a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.8em;
+}
+
+.busqueda {
+  grid-area: header-busqueda;
+  margin: 0;
+}
+
+.busqueda input {
+  width: 250px;
+  height: 40px;
+  font-size: 18px;
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  left: -100px;
+}
+
+.busqueda input:focus {
+  border-color: #0e273f;
+  box-shadow: 0 2px 8px rgba(14, 39, 63, 0.3);
+  outline: none;
+}
+
+/* --- SECCIÓN INICIO (CON VIDEO) --- */
+.inicio-container {
+  grid-area: inicio;
+  position: relative;
+  height: 500px;
+  background-color: #2e4b6e;
+  overflow: hidden;
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inicio {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "inicio-texto  ."
+    "inicio-oferta .";
+  align-items: start;
+  padding: 0 100px;
+  box-sizing: border-box;
+}
+
+.textoI {
+  grid-area: inicio-texto;
+  color: rgb(255, 255, 255);
+  font-size: 32px;
+  text-align: left;
+  padding-top: 60px;
+}
+
+.oferta {
+  grid-area: inicio-oferta;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 15px;
+}
+
+.btnOferta {
+  width: 120px;
+  height: 35px;
+  color: #fff;
+  background-color: #fa4841;
+  text-align: center;
+  line-height: 35px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* --- SECCIÓN CARRUSELES --- */
+.carrusel-comprados {
+  grid-area: carrusel1;
+}
+.carrusel-ofertas {
+  grid-area: carrusel2;
+}
+.carrusel-nuevos {
+  grid-area: carrusel3;
+}
+
+.carousel-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "prev carousel next";
+  align-items: center;
+  gap: 4px;
+  margin-top: 140px; 
+  margin-bottom: 0px; 
+  position: relative;
+  padding: 0 80px; 
+  box-sizing: border-box;
+}
+
+.carousel-container h2 {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000;
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  white-space: nowrap;
+}
+
+.prev {
+  grid-area: prev;
+  justify-self: end;
+}
+.next {
+  grid-area: next;
+  justify-self: start;
+}
+
+.prev img,
+.next img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.prev,
+.next {
+  background: #FA4841;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  cursor: pointer;
+  place-items: center;
+}
+
+.carousel {
+  grid-area: carousel;
+  display: grid;
+  grid-auto-flow: column;      
+  gap: 30px; 
+  padding: 10px 20px; 
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- 1. ESTADO INICIAL (Vertical) --- */
+.item {
+  width: 190px; 
+  height: 320px; 
+  background-color: #FFFFFF; 
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  display: grid;
+  grid-template-areas:
+    "imagen"
+    "info";
+  grid-template-rows: 160px 1fr; 
+  grid-template-columns: 1fr;
+  transition: all 0.5s ease-in-out;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+}
+
+.item-imagen {
+  grid-area: imagen;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding-top: 15px; 
+  box-sizing: border-box;
+}
+
+.item-imagen img {
+  max-width: 80%; 
+  max-height: 100%;
+  border-radius: 8px;
+  display: block;
+  object-fit: contain; 
+  transition: all 0.5s ease-in-out;
+}
+
+.item-info {
+  grid-area: info;
+  padding: 0 15px 10px 15px;
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto 1fr auto; 
+  justify-items: center; 
+  height: 100%;
+}
+
+.item-titulo { 
+  text-align: center;
+  font-size: 16px; 
+  color: #000;
+  margin-top: 25px; 
+  font-weight: bold;
+  height: 40px; 
+  overflow: hidden;
+}
+
+.item-descripcion-hover {
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  color: #333;
+  transform: translateY(10px); 
+  transition: all 0.4s ease-in-out 0.2s;
+}
+
+.price {
+  text-align: center;
+  font-size: 24px; 
+  color: #0E273F; 
+  background-color: transparent; 
+  padding: 2px 30px; 
+  margin-top: auto; 
+}
+
+/* --- 2. ESTADO HOVER (Horizontal) --- */
+.item:hover {
+  width: 350px; 
+  height: 320px; 
+  grid-template-areas: "imagen info"; 
+  grid-template-rows: 1fr; 
+  grid-template-columns: 1fr 1fr; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 10; 
+}
+
+.item:hover .item-imagen {
+  padding: 0; 
+}
+
+.item:hover .item-imagen img {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 0 0 8px; 
+  object-fit: cover; 
+}
+
+.item:hover .item-info {
+  padding: 20px; 
+  text-align: left; 
+  justify-items: start; 
+}
+
+.item:hover .item-titulo {
+  margin-top: 0;
+  text-align: left;
+  height: auto; 
+}
+
+.item:hover .item-descripcion-hover {
+  opacity: 1;
+  max-height: 150px;
+  margin: 10px 0;
+  transform: translateY(0);
+}
+
+.item:hover .price {
+  text-align: left;
+  padding-left: 0; 
+  padding-right: 0;
+  margin-top: 5px; 
+}
+
+/* --- SECCIÓN CATEGORÍAS --- */
+.categorias {
+  grid-area: categorias;
+  background-color: #2e4b6e;
+  padding: 50px 0;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 40px;
+}
+
+.categorias h2 {
+  color: white;
+  font-size: 2.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.botones-categorias {
+  display: grid;
+  gap: 30px;
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: repeat(8, 160px);
+  gap: 30px;
+  justify-content: center;
+}
+
+.categoria {
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  height: 70px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1f2e43;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.categoria:hover {
+  background-color: #e8eef7;
+  transform: scale(1.08);
+}
+
+/* --- FOOTER --- */
+footer {
+  grid-area: footer;
+  background-color: #0e273f;
+  color: white;
+  padding: 40px 100px;
+  box-sizing: border-box;
+  display: grid;
+  align-items: center;
+}
+
+footer .footer-contenedor {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto;
+  grid-template-areas: "logo    enlaces   suscripcion";
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+footer .footer-logo {
+  grid-area: logo;
+}
+
+footer .footer-logo img {
+  height: 60px;
+  display: block;
+}
+
+footer .footer-suscripcion {
+  grid-area: suscripcion;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 10px;
+}
+
+footer .footer-suscripcion input {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  width: 220px;
+}
+
+footer .footer-suscripcion button {
+  background-color: #fa4841;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+footer .footer-suscripcion button:hover {
+  background-color: #e03f39;
+}
+
+footer .footer-enlaces {
+  grid-area: enlaces;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 50px;
+}
+
+footer .footer-enlaces h4 {
+  margin-bottom: 8px;
+  font-size: 1em;
+  color: white;
+}
+
+footer .footer-enlaces a {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+footer .footer-enlaces a:hover {
+  color: white;
+}

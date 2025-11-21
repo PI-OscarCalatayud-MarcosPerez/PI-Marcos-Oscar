@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto - MOKeys</title>
+    
+    <link rel="stylesheet" href="css/estilos.css" />
+    
+    <link rel="icon" type="img/png" href="img/icono.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+  </head>
+  
+  <body class="pagina-contacto">
+    
+    <div class="aviso-slider">
+      <div class="aviso-slider-content">
+        <div>Clave de juegos con un 70% de descuento</div>
+        <div>¡Nuevas ofertas cada día!</div>
+        <div>¡Las claves más baratas de la web!</div>
+        <div>Clave de juegos con un 70% de descuento</div>
+      </div>
+    </div>
+
+    <header>
+      <img src="img/imagencolor.webp" alt="Logo" />
+
+      <a href="#" class="users"></a>
+      <a href="#" class="carro"></a>
+
+      <nav>
+        <ul class="enlaces_navegacion">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="">Comprar</a></li>
+          <li><a href="">Vender</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+      <form class="busqueda" action="#" method="get">
+        <input type="text" placeholder="Buscar producto..." name="q" />
+      </form>
+    </header>
+
+    <main class="contenedor-formulario-principal">
+      <div class="caja-formulario">
+        <h1>Contacta con nosotros</h1>
+        <p class="subtitulo-form">¿Tienes dudas con tu clave? Envíanos un mensaje.</p>
+        
+        <form action="formulari.php" method="post" id="formulario">
+            
+            <div class="grupo-input">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" />
+                <span class="error" id="error-nom"></span>
+            </div>
+
+            <div class="grupo-input">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" placeholder="tucorreo@email.com" />
+                <span class="error" id="error-correu"></span>
+            </div>
+
+            <div class="grupo-input">
+                <label for="asunto">Asunto:</label>
+                <select id="asunto" name="asunto">
+                    <option value="">Seleccione un asunto</option>
+                    <option value="informacion">Información General</option>
+                    <option value="soporte">Soporte Técnico</option>
+                    <option value="ventas">Ventas</option>
+                </select>
+                <span class="error" id="error-cicle"></span>
+            </div>
+
+            <div class="grupo-input">
+                <label for="Telefono">Teléfono:</label>
+                <input type="tel" id="Telefono" name="telefono" placeholder="+34 600 000 000" />
+                <span class="error" id="error-telefono"></span>
+            </div>
+
+            <div class="grupo-input">
+                <label for="mensaje">Mensaje / Consulta:</label>
+                <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribe aquí tu consulta..."></textarea>
+            </div>
+
+            <div class="grupo-checkbox">
+                <label>
+                    <input type="checkbox" id="consentimiento" name="consentimiento" />
+                    Acepto el tratamiento de los datos
+                </label>
+                <span class="error" id="error-consentimiento"></span>
+            </div>
+
+            <button type="submit" class="btn-enviar">Enviar Mensaje</button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-contenedor">
+        <div class="footer-logo">
+          <img src="img/imagensincolor.png" alt="MOKeys" />
+        </div>
+
+        <div class="footer-suscripcion">
+          <input type="email" placeholder="Insert your email address here" />
+          <button>Comprar ahora</button>
+        </div>
+
+        <div class="footer-enlaces">
+          <div>
+            <h4>Help</h4>
+            <a href="#">FAQ</a><br />
+            <a href="#">Customer service</a><br />
+            <a href="#">How to guides</a>
+          </div>
+          <div>
+            <h4>Other</h4>
+            <a href="#">Privacy Policy</a><br />
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
