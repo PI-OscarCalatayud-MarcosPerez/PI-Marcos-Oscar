@@ -2,12 +2,21 @@
     "usuaris": [
         {
             "nom_usuari": "marcos",
-            "contrasenya": "$2y$10$RntKZzY6d6DiqNyQM89FxOls1vRGAwuBoTbhzm2RlcIaYBffX7XVu",
+            "contrasenya": "$2y$10$jSJKB.yDJbeU5FQeRNrnaeteLER1w1vKHndIyaIz1shLPV9M87I36",
             "email": "correo@mail.com",
             "nom": "",
             "cognoms": "",
-            "data_registre": "2025-11-21T16:01:16+00:00",
+            "data_registre": "2025-11-27T17:49:03+00:00",
             "id": 1
+        },
+        {
+            "nom_usuari": "oscar",
+            "contrasenya": "$2y$10$zRdMgfqQS5XtrWRZHD74qug8Eo8Ehs\/zzf97\/erRPJGyTQSaIpc92",
+            "email": "prueba@mail.com",
+            "nom": "",
+            "cognoms": "",
+            "data_registre": "2025-11-27T17:51:58+00:00",
+            "id": 2
         }
     ]
 }

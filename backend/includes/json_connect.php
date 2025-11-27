@@ -1,7 +1,6 @@
 <?php
 
 define('JSON_FILE', __DIR__ . '/../data/users.json');
-
 /**
  * Helper: Obtener la ESTRUCTURA COMPLETA del JSON
  * Devuelve siempre un array con la clave 'usuaris'

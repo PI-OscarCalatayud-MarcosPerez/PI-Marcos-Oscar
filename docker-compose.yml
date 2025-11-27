@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     container_name: pi_php
     volumes:
-      - ./backend:/var/www/html
+      - ./:/var/www/html      
       - ./uploads:/var/www/uploads  
       - ./data:/var/www/data
       - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini

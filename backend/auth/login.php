@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie('user_id', $user['id'], time() + 3600, "/");
 
                 // Redirección si todo sale bien
-                header('Location: /profile.php');
+                header('Location: /index.html');
                 exit;
 
             } else {
