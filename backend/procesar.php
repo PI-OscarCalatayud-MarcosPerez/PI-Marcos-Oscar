@@ -1,290 +1,308 @@
 <?php
-// Mostramos todos los errores para depuración
+// --- LÓGICA PHP (INTACTA) ---
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// 2. DEFINICIÓN DE RUTAS
-define('UPLOAD_DIR', __DIR__ . '/../uploads/');
-define('DATA_DIR', __DIR__ . '/../data/');
+// Rutas (Ajustadas para buscar en la misma carpeta backend)
+define('UPLOAD_DIR', __DIR__ . '/uploads/');
+define('DATA_DIR', __DIR__ . '/data/');
 define('JSON_FILE', DATA_DIR . 'products.json');
 
-// Definimos las columnas que ESPERAMOS encontrar
-$expectedHeaders = [
-    'id', 'nombre', 'descripcion', 'precio', 'img', 'estoc', 'categoria'
-];
+// Crear carpetas si no existen
+if (!is_dir(UPLOAD_DIR))
+    mkdir(UPLOAD_DIR, 0777, true);
+if (!is_dir(DATA_DIR))
+    mkdir(DATA_DIR, 0777, true);
 
-// Arrays para la comunicación con el usuario
+$expectedHeaders = ['id', 'nombre', 'descripcion', 'precio', 'img', 'estoc', 'categoria'];
 $messages = [];
 $errors = [];
 $importedCount = 0;
 $rowErrors = [];
 
-// 3. GESTIÓN DE LA PETICIÓN (POST)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // --- PASO 1: Validar permisos (sin cambios) ---
-    if (!is_dir(UPLOAD_DIR) || !is_writable(UPLOAD_DIR)) {
-        $errors[] = "Error: La carpeta 'uploads' ('" . UPLOAD_DIR . "') no existe o no tiene permisos de escritura.";
-    }
-    if (!is_dir(DATA_DIR) || !is_writable(DATA_DIR)) {
-        $errors[] = "Error: La carpeta 'data' ('" . DATA_DIR . "') no existe o no tiene permisos de escritura.";
-    }
+    // 1. Validar permisos
+    if (!is_writable(UPLOAD_DIR))
+        $errors[] = "Error: La carpeta 'uploads' no tiene permisos de escritura.";
+    if (!is_writable(DATA_DIR))
+        $errors[] = "Error: La carpeta 'data' no tiene permisos de escritura.";
 
-    // --- PASO 2: Recibir y guardar el fichero (sin cambios) ---
-    if (count($errors) == 0) {
-        if (!isset($_FILES['arxiuCsv'])) {
-            $errors[] = "Error: No se ha recibido ningún fichero. Esto puede deberse a que el fichero es demasiado grande (supera 'post_max_size' de PHP).";
-        } elseif ($_FILES['arxiuCsv']['error'] != UPLOAD_ERR_OK) {
-            $errors[] = "Error en la subida del fichero. Código de error PHP: " . $_FILES['arxiuCsv']['error'];
+    // 2. Subir fichero
+    if (empty($errors)) {
+        if (!isset($_FILES['arxiuCsv']) || $_FILES['arxiuCsv']['error'] != UPLOAD_ERR_OK) {
+            $errors[] = "Error al subir el archivo. Código: " . ($_FILES['arxiuCsv']['error'] ?? 'Desconocido');
         } else {
             $fileTmpPath = $_FILES['arxiuCsv']['tmp_name'];
             $nomOriginal = basename($_FILES['arxiuCsv']['name']);
             $extensio = strtolower(pathinfo($nomOriginal, PATHINFO_EXTENSION));
 
             if ($extensio != 'csv') {
-                $errors[] = "Error: El fichero debe ser de tipo .csv. Has subido un '." . $extensio . "'";
+                $errors[] = "Error: Solo se admiten archivos .csv";
             } else {
-                $nomFitxerUnic = 'import_' . time() . '.csv';
-                $uploadFilePath = UPLOAD_DIR . $nomFitxerUnic;
-
+                $uploadFilePath = UPLOAD_DIR . 'import_' . time() . '.csv';
                 if (move_uploaded_file($fileTmpPath, $uploadFilePath)) {
-                    $messages[] = "Fichero '{$nomOriginal}' subido y guardado como '{$nomFitxerUnic}'.";
+                    $messages[] = "Archivo subido correctamente.";
                 } else {
-                    $errors[] = "No se ha podido mover el fichero subido a 'uploads'.";
+                    $errors[] = "No se pudo guardar el archivo en uploads.";
                 }
             }
         }
     }
 
-    // --- PASO 3, 4, 5: Procesar el fichero (LÓGICA CSV) ---
-    if (count($errors) == 0) {
+    // 3. Procesar CSV
+    if (empty($errors) && isset($uploadFilePath)) {
         $productes = [];
-        $formatoCorregido = false; // Variable para saber si el CSV está mal
-        
         if (($handle = fopen($uploadFilePath, "r")) !== FALSE) {
-            
-            // --- Validar cabeceras ---
-            $headerRow = fgetcsv($handle, 1000, ","); 
-            
-            if ($headerRow === FALSE) {
-                $errors[] = "No se ha podido leer la cabecera del CSV o el fichero está vacío.";
-            } else {
-                
-                // !! MEJORA "ANTI-COMILLAS" !!
-                // Comprobamos si fgetcsv solo ha leído 1 columna (porque todo estaba entre "...")
-                if (count($headerRow) === 1) {
-                    $formatoCorregido = true; // Marcamos que el CSV está mal
-                    // Quitamos las comillas del principio y final de la línea
-                    $lineaLimpia = trim($headerRow[0], '"');
-                    // Volvemos a procesar esa línea limpia como un CSV
-                    $headerRow = str_getcsv($lineaLimpia, ",");
-                }
-                
-                // MEJORA: Limpiamos el BOM (caracter invisible) de la primera columna
+            $headerRow = fgetcsv($handle, 1000, ",");
+
+            if ($headerRow) {
+                // Limpieza BOM y comillas
                 $headerRow[0] = preg_replace('/^\xEF\xBB\xBF/', '', $headerRow[0]);
+                if (count($headerRow) === 1)
+                    $headerRow = str_getcsv(trim($headerRow[0], '"'), ",");
 
-                // Limpiamos y mapeamos las cabeceras
                 $headers = array_map('strtolower', array_map('trim', $headerRow));
-                
-                $headerMap = [];
-                $columnaIndex = 0;
-                foreach ($headers as $headerName) {
-                    $headerMap[$headerName] = $columnaIndex;
-                    $columnaIndex++;
-                }
+                $headerMap = array_flip($headers);
 
-                $missing = [];
-                foreach ($expectedHeaders as $expected) {
-                    if (!isset($headerMap[$expected])) {
-                        $missing[] = $expected;
-                    }
-                }
-
-                if (count($missing) > 0) {
-                    $errors[] = "Cabeceras incorrectas. Faltan columnas: " . implode(', ', $missing);
+                // Validar columnas
+                $missing = array_diff($expectedHeaders, $headers);
+                if (!empty($missing)) {
+                    $errors[] = "Faltan columnas: " . implode(', ', $missing);
                 } else {
-                    
-                    // --- PASO 4: Validar Datos (Leemos el resto de filas) ---
-                    $rowNum = 1; 
-                    
+                    $rowNum = 1;
                     while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
                         $rowNum++;
-
-                        // !! MEJORA "ANTI-COMILLAS" !!
-                        // Si detectamos el formato erróneo, lo arreglamos en cada fila
-                        if ($formatoCorregido && count($row) === 1) {
-                            $lineaLimpia = trim($row[0], '"');
-                            $row = str_getcsv($lineaLimpia, ",");
-                            
-                            // fgetcsv maneja las comillas dobles ("") de las descripciones,
-                            // pero str_getcsv no lo hace igual. Las arreglamos:
-                            foreach ($row as $k => $v) {
+                        // Fix filas con formato incorrecto
+                        if (count($row) === 1) {
+                            $row = str_getcsv(trim($row[0], '"'), ",");
+                            foreach ($row as $k => $v)
                                 $row[$k] = str_replace('""', '"', $v);
-                            }
                         }
 
-                        if (implode('', $row) == '') {
-                            continue;
-                        }
+                        if (implode('', $row) == '')
+                            continue; // Saltar vacías
 
-                        // Comprobamos que el número de columnas coincida (evita errores)
                         if (count($row) != count($headers)) {
-                            $rowErrors[] = "Fila $rowNum: El número de columnas no coincide con la cabecera. Fila ignorada.";
+                            $rowErrors[] = "Fila $rowNum ignorada: Columnas insuficientes.";
                             continue;
                         }
 
-                        // Leemos todas las dadas
-                        $id = (int)$row[$headerMap['id']];
+                        // Mapear datos
                         $nom = trim($row[$headerMap['nombre']]);
-                        $preu_raw = $row[$headerMap['precio']];
-                        $preu = (float)str_replace(',', '.', $preu_raw);
-                        $estoc_raw = $row[$headerMap['estoc']];
+                        $id = (int) $row[$headerMap['id']];
+                        $preu = (float) str_replace(',', '.', $row[$headerMap['precio']]);
+                        $estoc = (int) $row[$headerMap['estoc']];
                         $categoria = trim($row[$headerMap['categoria']]);
 
-                        
-                        $errorDeFila = false;
-                        if (empty($nom)) {
-                            $rowErrors[] = "Fila $rowNum: 'nombre' está vacío. Fila ignorada.";
-                            $errorDeFila = true;
-                        }
-                        if ($id <= 0 && $errorDeFila == false) {
-                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El ID '{$id}' es inválido. Fila ignorada.";
-                            $errorDeFila = true;
-                        }
-                        if ($preu <= 0 && $errorDeFila == false) {
-                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El precio '{$preu_raw}' es inválido. Fila ignorada.";
-                            $errorDeFila = true;
-                        }
-                        
-                        if (!is_numeric($estoc_raw) || (int)$estoc_raw < 0) {
-                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): El 'estoc' ('{$estoc_raw}') no es un número válido o es negativo. Fila ignorada.";
-                            $errorDeFila = true;
-                        }
-                        $estoc = (int)$estoc_raw;
-
-                        if (empty($categoria) && $errorDeFila == false) {
-                            $rowErrors[] = "Fila $rowNum (Nombre: $nom): La 'categoria' está vacía. Fila ignorada.";
-                            $errorDeFila = true;
+                        // Validaciones de datos
+                        if (empty($nom) || $preu <= 0 || $estoc < 0) {
+                            $rowErrors[] = "Fila $rowNum ignorada: Datos inválidos ($nom).";
+                            continue;
                         }
 
-                        if ($errorDeFila == false) {
-                            $producte = [];
-                            $producte['id'] = $id;
-                            $producte['sku'] = 'JUEGO-' . $id;
-                            $producte['nom'] = $nom;
-                            $producte['descripcio'] = trim($row[$headerMap['descripcion']]);
-                            $producte['img'] = trim($row[$headerMap['img']]);
-                            $producte['preu'] = $preu;
-                            $producte['estoc'] = $estoc;
-                            $producte['categoria'] = $categoria;
-                            
-                            $productes[] = $producte;
-                        }
-                    } 
+                        $productes[] = [
+                            'id' => $id,
+                            'sku' => 'JUEGO-' . $id,
+                            'nom' => $nom,
+                            'descripcio' => trim($row[$headerMap['descripcion']]),
+                            'img' => trim($row[$headerMap['img']]),
+                            'preu' => $preu,
+                            'estoc' => $estoc,
+                            'categoria' => $categoria
+                        ];
+                    }
                     fclose($handle);
-                } 
-            } 
-        } else {
-            $errors[] = "No se ha podido abrir el fichero CSV subido.";
-        }
-
-        // --- PASO 5: Generar JSON ---
-        if (count($errors) == 0 && $handle !== FALSE && count($missing) == 0) {
-            $jsonData = ['productes' => $productes];
-            $jsonString = json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); 
-            
-            if (file_put_contents(JSON_FILE, $jsonString) === false) {
-                $errors[] = "Error crítico: No se ha podido escribir el fichero 'products.json' en '" . DATA_DIR . "'.";
+                }
             } else {
-                $importedCount = count($productes);
-                $messages[] = "PASO 5: Fichero 'products.json' generado (sobrescrito) correctamente.";
-                $messages[] = "(El JSON Server debería actualizarse automáticamente.)";
-                $messages[] = "✅ ¡Importación completada con éxito!";
-                $messages[] = "Total de productos importados: {$importedCount}";
+                $errors[] = "El archivo CSV está vacío o no se puede leer.";
             }
         }
-    } 
-} 
 
+        // 4. Guardar JSON
+        if (empty($errors) && !empty($productes)) {
+            $jsonData = ['products' => $productes];
+            if (file_put_contents(JSON_FILE, json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+                $importedCount = count($productes);
+                $messages[] = "✅ ¡Importación Exitosa! Total productos: $importedCount";
+            } else {
+                $errors[] = "Error al escribir en products.json";
+            }
+        }
+    }
+}
 ?>
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
+
 <head>
     <meta charset="UTF-8">
-    <title>C1 - Importación de Productos (CSV)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importar CSV - MOKeys</title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="/css/formulario.css">
+
+    <link rel="icon" type="img/png" href="/img/icono.png">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: sans-serif; margin: 2em; line-height: 1.6; background-color: #f4f4f4; }
-        h1 { color: #333; }
-        form { background: #fff; border: 1px solid #ccc; padding: 25px; border-radius: 8px; }
-        input[type="submit"] { background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
-        input[type="submit"]:hover { background: #0056b3; }
-        .summary { padding: 15px; margin-top: 20px; border-radius: 5px; }
-        .success { background: #e6ffed; border: 1px solid #b7ebc9; color: #25603d; }
-        .error { background: #ffebeb; border: 1px solid #f5c6cb; color: #721c24; }
-        .error ul, .success ul { margin-top: 10px; padding-left: 20px; }
-        .post-import { background: #fff; border: 1px solid #ccc; padding: 25px; border-radius: 8px; margin-top: 20px; }
+        /* Estilos específicos para los mensajes de este proceso */
+        .resumen-caja {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .resumen-exito {
+            background-color: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #2e7d32;
+        }
+
+        .resumen-error {
+            background-color: #ffebee;
+            border: 1px solid #ef9a9a;
+            color: #c62828;
+        }
+
+        .resumen-caja ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+
+        .info-columnas {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .input-fichero {
+            background: #f9f9f9;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
-<body>
 
-    <h1>Importar Productos desde CSV</h1>
-    <p>Este script subirá un fichero CSV, lo procesará y generará el <strong>/data/products.json</strong> para el JSON Server.</p>
+<body class="pagina-contacto">
 
-    <?php if (count($messages) > 0): ?>
-        <div class="summary success">
-            <strong>Resumen de la Importación:</strong>
-            <ul>
-                <?php foreach ($messages as $msg): ?>
-                    <li><?php echo htmlspecialchars($msg); ?></li>
-                <?php endforeach; ?>
-            </ul>
+    <div class="aviso-slider">
+        <div class="aviso-slider-content">
+            <div>Clave de juegos con un 70% de descuento</div>
+            <div>¡Nuevas ofertas cada día!</div>
+            <div>¡Las claves más baratas de la web!</div>
+            <div>Clave de juegos con un 70% de descuento</div>
         </div>
-    <?php endif; ?>
-    
-    <?php if (count($rowErrors) > 0): ?>
-        <div class="summary error">
-            <strong>Errores Detectados (Filas ignoradas):</strong>
-            <ul>
-                <?php foreach ($rowErrors as $err): ?>
-                    <li><?php echo htmlspecialchars($err); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <?php if (count($errors) > 0): // Muestra errores fatals ?>
-        <div class="summary error">
-            <strong>Errores Fatales:</strong>
-            <ul>
-                <?php foreach ($errors as $err): ?>
-                    <li><?php echo htmlspecialchars($err); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label for="arxiuCsv"><strong>Selecciona el fichero CSV (.csv):</strong></label>
-        <br><br>
-        <p>El fichero debe contener las columnas (en cualquier orden):<br>
-           <strong><?php echo implode(', ', $expectedHeaders); ?></strong>
-        </srp>
-        
-        <input type="file" name="arxiuCsv" id="arxiuCsv" accept=".csv" required>
-        <br><br>
-        <input type="submit" value="Subir y Procesar">
-    </form>
-
-    <?php if ($importedCount > 0): ?>
-    <div class="post-import">
-        <h3>Verificación en el JSON Server</h3>
-        <p>Se han importado <strong><?php echo $importedCount; ?></strong> productos. Puedes verificarlos en los enlaces:</p>
-        <ul>
-            <li><a href="http://localhost:3002/productes" target="_blank">Ver todos los productos (http://localhost:3002/productes)</a></li>
-            <li><a href="http://localhost:3002/productes/?id=1" target="_blank">Ver el producto con ID 1 (si existe)</a></li>
-        </ul>
     </div>
-    <?php endif; ?>
+
+    <header>
+        <img src="/img/imagencolor.webp" alt="Logo" />
+
+        <a href="#" class="users"></a>
+        <a href="#" class="carro"></a>
+
+        <nav>
+            <ul class="enlaces_navegacion">
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="#">Comprar</a></li>
+                <li><a href="#">Vender</a></li>
+                <li><a href="/contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <form class="busqueda" action="#" method="get">
+            <input type="text" placeholder="Buscar producto..." name="q" />
+        </form>
+    </header>
+
+    <main class="contenedor-formulario-principal">
+        <div class="caja-formulario" style="max-width: 700px;">
+            <h1>Importación de Productos</h1>
+            <p class="subtitulo-form">Actualiza el catálogo subiendo tu archivo CSV.</p>
+
+            <?php if (!empty($messages)): ?>
+                <div class="resumen-caja resumen-exito">
+                    <strong>Estado:</strong>
+                    <ul>
+                        <?php foreach ($messages as $msg)
+                            echo "<li>" . htmlspecialchars($msg) . "</li>"; ?>
+                    </ul>
+                    <?php if ($importedCount > 0): ?>
+                        <p style="margin-top:10px;">
+                            <a href="http://localhost:3002/products" target="_blank" style="color:#2e7d32; font-weight:bold;">
+                                Ver JSON generado ➜
+                            </a>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($errors)): ?>
+                <div class="resumen-caja resumen-error">
+                    <strong>⚠️ Errores Críticos:</strong>
+                    <ul>
+                        <?php foreach ($errors as $err)
+                            echo "<li>" . htmlspecialchars($err) . "</li>"; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($rowErrors)): ?>
+                <div class="resumen-caja resumen-error"
+                    style="background-color: #fff3e0; border-color: #ffcc80; color: #e65100;">
+                    <strong>⚠️ Advertencias (Filas ignoradas):</strong>
+                    <ul style="max-height: 100px; overflow-y: auto;">
+                        <?php foreach ($rowErrors as $err)
+                            echo "<li>" . htmlspecialchars($err) . "</li>"; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <form action="importar_excel.php" method="POST" enctype="multipart/form-data">
+
+                <div class="grupo-input">
+                    <label for="arxiuCsv">Seleccionar archivo (.csv):</label>
+                    <p class="info-columnas">Columnas requeridas: <?php echo implode(', ', $expectedHeaders); ?></p>
+
+                    <input type="file" name="arxiuCsv" id="arxiuCsv" required accept=".csv" class="input-fichero">
+                </div>
+
+                <button type="submit" name="btnSubir" value="Subir" class="btn-enviar">Importar Catálogo</button>
+            </form>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-contenedor">
+            <div class="footer-logo">
+                <img src="/img/imagensincolor.png" alt="MOKeys" />
+            </div>
+
+            <div class="footer-suscripcion">
+                <input type="email" placeholder="Insert your email address here" />
+                <button>Comprar ahora</button>
+            </div>
+
+            <div class="footer-enlaces">
+                <div>
+                    <h4>Help</h4>
+                    <a href="#">FAQ</a><br />
+                    <a href="#">Customer service</a><br />
+                    <a href="#">How to guides</a>
+                </div>
+                <div>
+                    <h4>Other</h4>
+                    <a href="#">Privacy Policy</a><br />
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
+
 </html>

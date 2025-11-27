@@ -30,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $user['nom_usuari'];
                 $_SESSION['user_email'] = $user['email'];
 
-                setcookie('user_id', $user['id'], time() + 3600, "/");
+                setcookie( 'user_id', $user['id'], time() + 3600, "/");
 
                 // Redirección si todo sale bien
-                header('Location: /index.html');
+                header('Location: /profile.php');
                 exit;
 
             } else {
