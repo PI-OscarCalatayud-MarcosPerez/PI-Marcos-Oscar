@@ -1,18 +1,16 @@
 <?php
-// --- LÓGICA PHP (INTACTA) ---
+// --- LÓGICA PHP MODIFICADA ---
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Rutas (Ajustadas para buscar en la misma carpeta backend)
+// Rutas
 define('UPLOAD_DIR', __DIR__ . '/uploads/');
 define('DATA_DIR', __DIR__ . '/data/');
 define('JSON_FILE', DATA_DIR . 'products.json');
 
 // Crear carpetas si no existen
-if (!is_dir(UPLOAD_DIR))
-    mkdir(UPLOAD_DIR, 0777, true);
-if (!is_dir(DATA_DIR))
-    mkdir(DATA_DIR, 0777, true);
+if (!is_dir(UPLOAD_DIR)) mkdir(UPLOAD_DIR, 0777, true);
+if (!is_dir(DATA_DIR)) mkdir(DATA_DIR, 0777, true);
 
 $expectedHeaders = ['id', 'nombre', 'descripcion', 'precio', 'img', 'estoc', 'categoria'];
 $messages = [];
@@ -23,10 +21,8 @@ $rowErrors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // 1. Validar permisos
-    if (!is_writable(UPLOAD_DIR))
-        $errors[] = "Error: La carpeta 'uploads' no tiene permisos de escritura.";
-    if (!is_writable(DATA_DIR))
-        $errors[] = "Error: La carpeta 'data' no tiene permisos de escritura.";
+    if (!is_writable(UPLOAD_DIR)) $errors[] = "Error: La carpeta 'uploads' no tiene permisos de escritura.";
+    if (!is_writable(DATA_DIR)) $errors[] = "Error: La carpeta 'data' no tiene permisos de escritura.";
 
     // 2. Subir fichero
     if (empty($errors)) {
@@ -52,7 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // 3. Procesar CSV
     if (empty($errors) && isset($uploadFilePath)) {
+        
+        // A) CARGAR PRODUCTOS EXISTENTES PARA EVITAR DUPLICADOS
         $productes = [];
+        $idsExistentes = [];
+
+        if (file_exists(JSON_FILE)) {
+            $jsonContent = file_get_contents(JSON_FILE);
+            $decoded = json_decode($jsonContent, true);
+            if (isset($decoded['products']) && is_array($decoded['products'])) {
+                $productes = $decoded['products'];
+                // Crear mapa de IDs existentes
+                foreach ($productes as $p) {
+                    $idsExistentes[] = $p['id'];
+                }
+            }
+        }
+
         if (($handle = fopen($uploadFilePath, "r")) !== FALSE) {
             $headerRow = fgetcsv($handle, 1000, ",");
 
@@ -71,6 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $errors[] = "Faltan columnas: " . implode(', ', $missing);
                 } else {
                     $rowNum = 1;
+                    $nuevosAgregados = 0;
+
                     while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
                         $rowNum++;
                         // Fix filas con formato incorrecto
@@ -80,8 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $row[$k] = str_replace('""', '"', $v);
                         }
 
-                        if (implode('', $row) == '')
-                            continue; // Saltar vacías
+                        if (implode('', $row) == '') continue; // Saltar vacías
 
                         if (count($row) != count($headers)) {
                             $rowErrors[] = "Fila $rowNum ignorada: Columnas insuficientes.";
@@ -89,11 +102,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         }
 
                         // Mapear datos
-                        $nom = trim($row[$headerMap['nombre']]);
                         $id = (int) $row[$headerMap['id']];
+                        $nom = trim($row[$headerMap['nombre']]);
                         $preu = (float) str_replace(',', '.', $row[$headerMap['precio']]);
                         $estoc = (int) $row[$headerMap['estoc']];
                         $categoria = trim($row[$headerMap['categoria']]);
+
+                        // B) VALIDAR DUPLICADOS
+                        if (in_array($id, $idsExistentes)) {
+                            $rowErrors[] = "Fila $rowNum ignorada: El ID $id ya existe en el catálogo.";
+                            continue;
+                        }
 
                         // Validaciones de datos
                         if (empty($nom) || $preu <= 0 || $estoc < 0) {
@@ -101,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             continue;
                         }
 
+                        // Agregar producto nuevo
                         $productes[] = [
                             'id' => $id,
                             'sku' => 'JUEGO-' . $id,
@@ -111,6 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             'estoc' => $estoc,
                             'categoria' => $categoria
                         ];
+                        
+                        $idsExistentes[] = $id; // Actualizar lista de IDs locales
+                        $nuevosAgregados++;
                     }
                     fclose($handle);
                 }
@@ -119,12 +142,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        // 4. Guardar JSON
-        if (empty($errors) && !empty($productes)) {
+        // 4. Guardar JSON (Solo si hubo cambios)
+        if (empty($errors)) {
             $jsonData = ['products' => $productes];
             if (file_put_contents(JSON_FILE, json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
-                $importedCount = count($productes);
-                $messages[] = "✅ ¡Importación Exitosa! Total productos: $importedCount";
+                $importedCount = isset($nuevosAgregados) ? $nuevosAgregados : 0;
+                $totalCount = count($productes);
+                $messages[] = "✅ ¡Proceso completado! Nuevos añadidos: $importedCount. Total en catálogo: $totalCount.";
             } else {
                 $errors[] = "Error al escribir en products.json";
             }
