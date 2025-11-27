@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-// Ajusta esta ruta si es necesario
+// Asegúrate que este archivo NO tenga espacios en blanco antes de <?php
 require_once('../includes/json_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $user['nom_usuari'];
                 $_SESSION['user_email'] = $user['email'];
 
-                setcookie( 'user_id', $user['id'], time() + 3600, "/");
+                setcookie('user_id', $user['id'], time() + 3600, "/");
 
-                // Redirección si todo sale bien
-                header('Location: /profile.php');
+
+                header('Location: profile.php');
                 exit;
 
             } else {
@@ -42,14 +42,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Si hay un error, lo mostramos aquí porque no podemos volver al HTML estático con datos
+    // Si llegamos aquí, es que hubo error
     if ($error_message) {
-        echo "<p style='color:red'>Error: " . htmlspecialchars($error_message) . "</p>";
+        echo "<h3 style='color:red'>Error: " . htmlspecialchars($error_message) . "</h3>";
+        echo "<p>Hash en base de datos: " . ($user['contrasenya'] ?? 'No usuario') . "</p>"; // Depuración
         echo "<a href='/login.html'>Volver a intentar</a>";
     }
 
 } else {
-    // Si intentan entrar sin POST, mandar al formulario
     header('Location: /login.html');
     exit;
 }

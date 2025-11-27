@@ -3,30 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/auth.css">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar Sesión - MOKeys</title>
+    
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/formulario.css">
+    
+    <link rel="icon" type="img/png" href="img/icono.png">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
 
-    <main>
-        <h2>Iniciar Sesión</h2>
+<body class="pagina-contacto">
+
+    <div class="aviso-slider">
+      <div class="aviso-slider-content">
+        <div>Clave de juegos con un 70% de descuento</div>
+        <div>¡Nuevas ofertas cada día!</div>
+        <div>¡Las claves más baratas de la web!</div>
+        <div>Clave de juegos con un 70% de descuento</div>
+      </div>
+    </div>
+
+    <header>
+      <img src="img/imagencolor.webp" alt="Logo" />
+
+     <a href="/backend/auth/cuenta.php" class="users"></a>
+      <a href="#" class="carro"></a>
+
+      <nav>
+        <ul class="enlaces_navegacion">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="#">Comprar</a></li>
+          <li><a href="#">Vender</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+      <form class="busqueda" action="#" method="get">
+        <input type="text" placeholder="Buscar producto..." name="q" />
+      </form>
+    </header>
+
+    <main class="contenedor-formulario-principal">
+      <div class="caja-formulario" style="max-width: 400px;">
+        
+        <h2 style="text-align: center; color: #0e273f; margin-top: 0;">Iniciar Sesión</h2>
+
+        <p id="mensaje-error" class="error" style="color: #fa4841; display: none; text-align: center; font-weight: bold;"></p>
 
         <form action="/backend/auth/login.php" method="POST" novalidate>
-            <div>
+            
+            <div class="grupo-input">
                 <label for="username">Nombre de usuario:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required placeholder="Ej: usuario123">
             </div>
-            <div>
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div>
-                <button type="submit">Entrar</button>
-            </div>
-        </form>
-        <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>.</p>
 
+            <div class="grupo-input">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required placeholder="Tu contraseña">
+            </div>
+
+            <button type="submit" class="btn-enviar">Entrar</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px;">
+            ¿No tienes cuenta? <a href="register.html" style="color: #fa4841; font-weight: bold;">Regístrate aquí</a>.
+        </p>
+
+      </div>
     </main>
+
+    <footer>
+      <div class="footer-contenedor">
+        <div class="footer-logo">
+          <img src="img/imagensincolor.png" alt="MOKeys" />
+        </div>
+
+        <div class="footer-suscripcion">
+          <input type="email" placeholder="Insert your email address here" />
+          <button>Comprar ahora</button>
+        </div>
+
+        <div class="footer-enlaces">
+          <div>
+            <h4>Help</h4>
+            <a href="#">FAQ</a><br />
+            <a href="#">Customer service</a><br />
+            <a href="#">How to guides</a>
+          </div>
+          <div>
+            <h4>Other</h4>
+            <a href="#">Privacy Policy</a><br />
+            <a href="#">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    </script>
 
 </body>
 </html>

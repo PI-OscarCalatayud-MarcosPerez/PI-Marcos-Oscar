@@ -4,8 +4,8 @@
             "nom_usuari": "marcos",
             "contrasenya": "$2y$10$jSJKB.yDJbeU5FQeRNrnaeteLER1w1vKHndIyaIz1shLPV9M87I36",
             "email": "correo@mail.com",
-            "nom": "",
-            "cognoms": "",
+            "nom": "Marcos",
+            "cognoms": "Perez",
             "data_registre": "2025-11-27T17:49:03+00:00",
             "id": 1
         },
@@ -17,6 +17,15 @@
             "cognoms": "",
             "data_registre": "2025-11-27T17:51:58+00:00",
             "id": 2
+        },
+        {
+            "nom_usuari": "adam",
+            "contrasenya": "$2y$10$APs9GMRc89aFj\/nJHL4fsu4XjCgv2h1ON9q6.U7HMEiojRwMAsXtG",
+            "email": "adam@mail.com",
+            "nom": "",
+            "cognoms": "",
+            "data_registre": "2025-11-27T18:27:24+00:00",
+            "id": 3
         }
     ]
 }
