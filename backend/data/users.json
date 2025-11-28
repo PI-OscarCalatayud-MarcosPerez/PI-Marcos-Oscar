@@ -26,6 +26,24 @@
             "cognoms": "",
             "data_registre": "2025-11-27T18:27:24+00:00",
             "id": 3
+        },
+        {
+            "nom_usuari": "Prueba",
+            "contrasenya": "$2y$10$8aSVS7sJ29wY3zV6BcWPmecOd1wYd6i39hnc5huSU1cV5P1Jt24pq",
+            "email": "prueba@gmail.com",
+            "nom": "",
+            "cognoms": "",
+            "data_registre": "2025-11-27T19:11:32+00:00",
+            "id": 4
+        },
+        {
+            "nom_usuari": "Oscar",
+            "contrasenya": "$2y$10$C2Y8vU8v66YWz2E9DQmMZeJ9KHQZq.2gNVE1LAvd.6Q9VPNDlv\/oe",
+            "email": "correoprueba@gmail.com",
+            "nom": "",
+            "cognoms": "",
+            "data_registre": "2025-11-27T19:13:38+00:00",
+            "id": 5
         }
     ]
 }
