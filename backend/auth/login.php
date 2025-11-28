@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 
 session_start();
 
-// Asegúrate que este archivo NO tenga espacios en blanco antes de <?php
 require_once('../includes/json_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

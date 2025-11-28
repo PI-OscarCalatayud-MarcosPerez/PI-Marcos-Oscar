@@ -38,9 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "data_registre" => date('c')
             ];
 
-            // 4. Guardar (función de json_connect.php)
-            // Nota: Asumo que tu json_connect tiene createUser. 
-            // Si usaste el ejemplo anterior que llamamos 'saveUser', cámbialo aquí.
             $createdUser = createUser($newUser); 
 
             if ($createdUser) {

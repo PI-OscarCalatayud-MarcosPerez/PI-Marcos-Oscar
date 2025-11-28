@@ -2,23 +2,18 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// --- 1. CONFIGURACIÓN DE SESIÓN (OBLIGATORIO: Igual que en login.php) ---
 ini_set('session.cookie_path', '/');
 ini_set('session.gc_maxlifetime', 3600);
 // ------------------------------------------------------------------------
 
 session_start();
 
-// --- 2. CORRECCIÓN DE RUTA (Tenías un ../ de más) ---
-// Estamos en /auth/, subimos uno (..) y entramos en /includes/
 require_once __DIR__ . '/../includes/json_connect.php';
 
 $error_message = null;
 $success_message = null;
 
-// Seguridad: Si no hay sesión, mandar al login
 if (!isset($_SESSION['user_id'])) {
-    // Redirigimos con un mensaje para saber por qué falló
     header('Location: /login.html?error=Sesion_caducada_o_perdia'); 
     exit;
 }
@@ -40,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "cognoms" => $cognoms
         ];
 
-        // Usamos la función updateUser (asegúrate de haberla puesto en json_connect.php)
         $updatedUser = updateUser($user_id, $updateData);
 
         if ($updatedUser) {
@@ -55,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Cargar datos actuales
 $userData = getUserById($user_id);
 
-// Si el usuario no existe en el JSON (borrado manual?), cerramos sesión
 if (!$userData) {
     session_destroy();
     header('Location: /login.html?error=Usuario_no_encontrado');
