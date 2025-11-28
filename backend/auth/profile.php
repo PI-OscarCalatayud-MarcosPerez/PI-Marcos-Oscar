@@ -4,7 +4,6 @@ error_reporting(E_ALL);
 
 ini_set('session.cookie_path', '/');
 ini_set('session.gc_maxlifetime', 3600);
-// ------------------------------------------------------------------------
 
 session_start();
 

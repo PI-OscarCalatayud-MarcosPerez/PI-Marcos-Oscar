@@ -1,0 +1,224 @@
+
+body.producto {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 33px 92px 1fr auto auto;
+
+  grid-template-areas:
+    "barra-aviso"
+    "header"
+    "ficha-producto"
+    "seccion-reviews"
+    "footer";
+  gap: 0;
+}
+
+/* 2. FICHA TÉCNICA */
+.producto-contenedor {
+  grid-area: ficha-producto;
+  justify-self: center; 
+  align-self: center; 
+
+  max-width: 1100px;
+  width: 90%;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(14, 39, 63, 0.1);
+  box-sizing: border-box;
+
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  grid-template-areas: "foto info";
+  gap: 50px;
+  align-items: start;
+}
+
+/* Columna Izquierda (Foto) */
+.col-izq {
+  grid-area: foto;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.col-izq img {
+  max-width: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+}
+
+/* Columna Derecha (Info) */
+.col-der {
+  grid-area: info;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto; 
+  gap: 15px;
+}
+
+.titulo-producto {
+  font-size: 2.8rem;
+  color: #0e273f;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.sku {
+  font-family: monospace;
+  color: #999;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.precio-producto {
+  font-size: 2.5rem;
+  color: #fa4841;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.descripcion-producto {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  padding: 20px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.btn-compra {
+  background-color: #0e273f;
+  color: white;
+  padding: 18px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(14, 39, 63, 0.2);
+  width: 100%;
+  transition: transform 0.2s;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-compra:hover {
+  background-color: #1f2e43;
+  transform: translateY(-2px);
+}
+
+.btn-compra img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+}
+
+/* 3. SECCIÓN COMENTARIOS */
+.seccion-comentarios {
+  grid-area: seccion-reviews;
+  justify-self: center;
+
+  max-width: 1100px;
+  width: 90%;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(14, 39, 63, 0.1);
+  box-sizing: border-box;
+  margin-bottom: 60px;
+}
+
+.seccion-comentarios h3 {
+  color: #0e273f;
+  margin-top: 0;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.lista-reviews {
+  margin-bottom: 40px;
+}
+.comentario {
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+}
+.usuario-review {
+  font-weight: bold;
+  color: #0e273f;
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+.estrellas-review {
+  color: #ffc107;
+  font-size: 1.2rem;
+}
+.texto-review {
+  margin-top: 10px;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Formulario */
+.form-reviews {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+.form-reviews h4 {
+  margin-top: 0;
+  color: #0e273f;
+  font-size: 1.2rem;
+}
+.form-reviews textarea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.btn-publicar {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+.btn-publicar:hover {
+  background-color: #000;
+}
+
+.estrellas-input span {
+  font-size: 32px;
+  color: #ddd;
+  cursor: pointer;
+}
+.estrellas-input span.selected {
+  color: #ffc107;
+}
+.estrellas-input span:hover {
+  color: #ffdb58;
+}

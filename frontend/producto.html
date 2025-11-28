@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto - MOKeys</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/producto.css">
+    
+    <link rel="icon" type="img/png" href="img/icono.png">
+</head>
+
+<body class="producto">
+
+    <div class="aviso-slider">
+        <div class="aviso-slider-content">
+            <div>Envío gratis en pedidos +50€</div>
+            <div>Ofertas especiales de fin de semana</div>
+            <div>Nuevos productos cada día</div>
+        </div>
+    </div>
+
+    <header>
+        <img src="img/imagencolor.webp" alt="Logo MOKeys" />
+
+        <a href="/backend/auth/cuenta.php" class="users"></a>
+        <a href="#" class="carro"></a>
+
+        <nav>
+            <ul class="enlaces_navegacion">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">Comprar</a></li>
+                <li><a href="#">Vender</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="formulario.html">Subir</a></li>
+            </ul>
+        </nav>
+
+        <form class="busqueda" action="#" method="get">
+            <input type="text" placeholder="Buscar producto..." name="q" />
+        </form>
+    </header>
+
+    <div id="ficha-producto" class="producto-contenedor">
+        <div class="col-izq">
+             <img src="img/placeholder.png" alt="Cargando imagen...">
+        </div>
+        <div class="col-der">
+            <h1 class="titulo-producto">Cargando producto...</h1>
+            <p class="sku">Por favor espera un momento</p>
+            <div class="precio-producto">--,-- €</div>
+            <button class="btn-compra">
+                Cargando...
+            </button>
+        </div>
+    </div>
+
+    <div class="seccion-comentarios">
+        <h3>Reseñas de usuarios</h3>
+        
+        <div id="lista-reviews" class="lista-reviews">
+            <p>Cargando opiniones...</p>
+        </div>
+
+        <div id="form-reviews" class="form-reviews" style="display:none;"> 
+            <h4>Deja tu opinión:</h4>
+            <div class="estrellas-input">
+                <span onclick="seleccionarEstrella(1)">★</span>
+                <span onclick="seleccionarEstrella(2)">★</span>
+                <span onclick="seleccionarEstrella(3)">★</span>
+                <span onclick="seleccionarEstrella(4)">★</span>
+                <span onclick="seleccionarEstrella(5)">★</span>
+            </div>
+            
+            <textarea id="texto" rows="4" placeholder="¿Qué te ha parecido el juego? Escribe tu reseña aquí..."></textarea>
+            
+            <button onclick="enviarReview()" class="btn-publicar">Publicar Opinión</button>
+        </div>
+
+        <div id="aviso-login" style="display: none; text-align: center; background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba; margin-top: 20px;">
+            <p style="margin:0; font-weight: bold;">
+                🔒 Debes <a href="login.html" style="color: #0e273f; text-decoration: underline;">iniciar sesión</a> para dejar un comentario.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-contenedor">
+            <div class="footer-logo">
+                <img src="img/imagensincolor.png" alt="MOKeys" />
+            </div>
+
+            <div class="footer-suscripcion">
+                <input type="email" placeholder="Introduce tu email aquí" />
+                <button>Suscribirse</button>
+            </div>
+
+            <div class="footer-enlaces">
+                <div>
+                    <h4>Ayuda</h4>
+                    <a href="#">FAQ</a><br />
+                    <a href="#">Soporte</a><br />
+                    <a href="#">Guías</a>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <a href="#">Política de Privacidad</a><br />
+                    <a href="#">Mapa del sitio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/detalle.js"></script>
+
+</body>
+</html>

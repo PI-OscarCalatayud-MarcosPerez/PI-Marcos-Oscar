@@ -1,4 +1,3 @@
-/* --- ESTILOS GENERALES Y GRID PRINCIPAL (BODY) --- */
 body {
   font-family: "Rubik", sans-serif;
   margin: 0;
@@ -161,7 +160,6 @@ header nav {
   outline: none;
 }
 
-/* --- SECCIÓN INICIO (CON VIDEO) --- */
 .inicio-container {
   grid-area: inicio;
   position: relative;
@@ -230,7 +228,6 @@ header nav {
   border-radius: 5px;
 }
 
-/* --- SECCIÓN CARRUSELES --- */
 .carrusel-comprados {
   grid-area: carrusel1;
 }
@@ -304,7 +301,6 @@ header nav {
   align-items: center;
 }
 
-/* --- 1. ESTADO INICIAL (Vertical) --- */
 .item {
   width: 190px; 
   height: 320px; 

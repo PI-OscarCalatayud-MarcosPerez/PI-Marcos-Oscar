@@ -1,0 +1,33 @@
+[
+    {
+        "id": "6929c078e64be",
+        "productId": "2",
+        "user": "marcos",
+        "rating": 5,
+        "comment": "Muy buen juego",
+        "date": "2025-11-28 15:32"
+    },
+    {
+        "id": "6929c09ad465b",
+        "productId": "2",
+        "user": "oscar",
+        "rating": 3,
+        "comment": "no es tan bueno soy tonto",
+        "date": "2025-11-28 15:32"
+    },
+    {
+        "id": "6929c82297ccf",
+        "productId": "4",
+        "user": "marcos",
+        "rating": 4,
+        "comment": "1212",
+        "date": "2025-11-28 16:04"
+    },
+    {
+        "productId": "2",
+        "user": "adam",
+        "rating": 4,
+        "comment": "No me lo he pasado",
+        "date": "2025-11-28"
+    }
+]
