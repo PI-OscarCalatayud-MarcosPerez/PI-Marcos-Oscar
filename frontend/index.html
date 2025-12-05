@@ -60,27 +60,21 @@
     <div class="carousel-container carrusel-comprados">
       <h2>Juegos más comprados</h2>
       <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-
       <div class="carousel" id="lista-comprados"></div>
-
       <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
     </div>
 
     <div class="carousel-container carrusel-ofertas">
       <h2>Mejores Ofertas</h2>
       <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-
       <div class="carousel" id="lista-ofertas"></div>
-
       <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
     </div>
 
     <div class="carousel-container carrusel-nuevos">
       <h2>Software Clave y Plataformas de IA</h2>
       <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-
       <div class="carousel" id="lista-nuevos"></div>
-
       <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
     </div>
 
@@ -137,61 +131,6 @@
       </div>
     </footer>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        try {
-          // CAMBIO: Ahora pedimos los datos a la API PHP, no al archivo directo
-          const response = await fetch("/backend/api/products.php");
-          
-          if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status} - API no disponible`);
-          }
-          
-          const data = await response.json();
-          
-          // Detectar estructura del JSON
-          const products = data.products ? data.products : data;
-
-          // 2. Función para crear la tarjeta HTML
-          const createCard = (product) => {
-            return `
-                <div class="item" onclick="window.location.href='product.html?id=${product.id}'">
-                    <div class="item-imagen">
-                        <img src="${product.img}" alt="${product.nom}" loading="lazy" />
-                    </div>
-                    <div class="item-info">
-                        <p class="item-titulo">${product.nom}</p>
-                        <p class="item-descripcion-hover">${product.descripcio.substring(0, 80)}...</p>
-                        <p class="price">${parseFloat(product.preu).toFixed(2)}€</p>
-                    </div>
-                </div>
-            `;
-          };
-
-          // 3. Función de renderizado
-          const renderCarousel = (categoryId, containerId) => {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            // IMPORTANTE: Asegúrate que 'categoria' en el JSON coincida (comprados, ofertas, nuevos)
-            const filtered = products.filter((p) => p.categoria === categoryId);
-            
-            if (filtered.length > 0) {
-                container.innerHTML = filtered.map(createCard).join("");
-            } else {
-                container.innerHTML = "<p style='padding:20px; color: white; text-align: center; width: 100%;'>No hay productos disponibles.</p>";
-            }
-          };
-
-          // 4. Cargar los carruseles
-          renderCarousel("comprados", "lista-comprados");
-          renderCarousel("ofertas", "lista-ofertas");
-          renderCarousel("nuevos", "lista-nuevos");
-
-        } catch (error) {
-          console.error("Error cargando productos:", error);
-        }
-      });
-    </script>
+    <script src="js/inicio.js"></script>
   </body>
 </html>

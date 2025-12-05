@@ -4,102 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detalle del Producto | MOKeys</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" type="image/png" href="img/icono.png" />
     
-    <style>
-        /* Ajuste para que el contenido no se oculte tras el header fijo */
-        body {
-            display: block; /* Sobrescribe el grid del index para esta página */
-            padding-top: 130px; /* Espacio para el header */
-        }
-        
-        .product-main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 60vh;
-        }
-
-        .product-detail-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-        }
-
-        .product-image img {
-            width: 100%;
-            border-radius: 10px;
-            object-fit: cover;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .product-info h1 {
-            font-size: 2.8rem;
-            color: #0e273f;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .product-sku {
-            color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .product-price {
-            font-size: 2.5rem;
-            color: #fa4841;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .product-stock {
-            display: inline-block;
-            background: #eaf2f2;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: #0e273f;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .product-desc {
-            font-size: 1.1rem;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .btn-buy-large {
-            display: inline-block;
-            background-color: #fa4841;
-            color: white;
-            padding: 15px 50px;
-            font-size: 1.2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .btn-buy-large:hover { 
-            background-color: #e03f39;
-            transform: scale(1.02);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .product-detail-container { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/productos.css" />
+    
+    <link rel="icon" type="image/png" href="img/icono.png" />
 </head>
 <body>
 
@@ -111,6 +20,7 @@
         <div>Clave de juegos con un 70% de descuento</div>
       </div>
     </div>
+
     <header style="position: fixed; top: 33px; width: 100%; z-index: 999;">
       <img src="img/imagencolor.webp" alt="Logo" />
       <a href="/backend/auth/cuenta.php" class="users"></a>
@@ -130,7 +40,6 @@
     </header>
 
     <div class="product-main">
-        
         <main class="product-detail-container">
             <div class="product-image">
                 <img id="p-image" src="" alt="Cargando imagen...">
@@ -138,55 +47,49 @@
             <div class="product-info">
                 <h1 id="p-title">Cargando...</h1>
                 <span id="p-sku" class="product-sku">REF: --</span>
-                
                 <p id="p-price" class="product-price">-- €</p>
                 <span id="p-stock" class="product-stock">Stock: --</span>
-
                 <p id="p-desc" class="product-desc"></p>
-                
                 <button class="btn-buy-large">Añadir al Carrito 🛒</button>
             </div>
         </main>
 
         <section class="reviews-container">
-        <div class="reviews-header">
-            <h2>Opiniones de la Comunidad</h2>
-            <div class="rating-summary">
-                <div class="rating-number" id="average-rating">--</div>
-                <div class="rating-stars">★★★★★</div>
-                <div class="rating-count">Basado en <span id="total-reviews">0</span> opiniones</div>
-            </div>
-        </div>
-        
-        <div id="login-required-message" class="review-form-card" style="display:none; text-align:center; padding: 40px;">
-            <p style="font-size: 1.2rem; color: #ccc;">
-                Debes <a href="login.html" style="color:#fa4841; font-weight:bold; text-decoration:none;">iniciar sesión</a> para dejar tu valoración.
-            </p>
-        </div>
-
-        <div id="comment-form-container" class="review-form-card" style="display:none;">
-            <h3>Deja tu valoración</h3>
-            <form id="form-comentari">
-                <input type="hidden" id="product_id_hidden" value="">
-                
-                <div class="rate">
-                    <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="5 estrellas">★</label>
-                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="4 estrellas">★</label>
-                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="3 estrellas">★</label>
-                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="2 estrellas">★</label>
-                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="1 estrella">★</label>
+            <div class="reviews-header">
+                <h2>Opiniones de la Comunidad</h2>
+                <div class="rating-summary">
+                    <div class="rating-number" id="average-rating">--</div>
+                    <div class="rating-stars">★★★★★</div>
+                    <div class="rating-count">Basado en <span id="total-reviews">0</span> opiniones</div>
                 </div>
-                
-                <textarea id="comment-text" placeholder="¿Qué te ha parecido el juego? Cuéntanos tu experiencia..." required></textarea>
-                <button type="submit" class="btn-submit-review">Publicar Opinión</button>
-            </form>
-        </div>
-    
-        <div class="reviews-list" id="comments-list">
-            <p style="color: #aaa; text-align: center;">Cargando opiniones...</p>
-        </div>
-    </section>
+            </div>
+            
+            <div id="login-required-message" class="review-form-card" style="display:none; text-align:center; padding: 40px;">
+                <p style="font-size: 1.2rem; color: #ccc;">
+                    Debes <a href="login.html" style="color:#fa4841; font-weight:bold; text-decoration:none;">iniciar sesión</a> para dejar tu valoración.
+                </p>
+            </div>
 
+            <div id="comment-form-container" class="review-form-card" style="display:none;">
+                <h3>Deja tu valoración</h3>
+                <form id="form-comentari">
+                    <input type="hidden" id="product_id_hidden" value="">
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="5 estrellas">★</label>
+                        <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="4 estrellas">★</label>
+                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="3 estrellas">★</label>
+                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="2 estrellas">★</label>
+                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="1 estrella">★</label>
+                    </div>
+                    <textarea id="comment-text" placeholder="¿Qué te ha parecido el juego? Cuéntanos tu experiencia..." required></textarea>
+                    <button type="submit" class="btn-submit-review">Publicar Opinión</button>
+                </form>
+            </div>
+        
+            <div class="reviews-list" id="comments-list">
+                <p style="color: #aaa; text-align: center;">Cargando opiniones...</p>
+            </div>
+        </section>
     </div>
 
     <footer>
@@ -208,68 +111,6 @@
     </footer>
 
     <script src="js/comentarios.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            // 1. Obtener ID de la URL (ej: product.html?id=1)
-            const params = new URLSearchParams(window.location.search);
-            const productId = parseInt(params.get('id')); // Convertir a número entero
-
-            if (!productId) {
-                document.querySelector('.product-detail-container').innerHTML = 
-                    "<h2>Producto no especificado. <a href='index.html'>Volver al inicio</a></h2>";
-                return;
-            }
-
-            try {
-                // 2. CAMBIO CLAVE: Usar la API PHP en lugar del archivo directo
-                const response = await fetch('/backend/api/products.php');
-                
-                if (!response.ok) {
-                     throw new Error("Error de conexión con la API");
-                }
-
-                const data = await response.json();
-                
-                // 3. CAMBIO CLAVE: Detectar si el JSON tiene la clave "products"
-                const products = data.products ? data.products : data;
-                
-                // 4. Buscar el producto por ID
-                const product = products.find(p => p.id === productId);
-
-                if (product) {
-                    // 5. Rellenar el HTML
-                    document.title = product.nom + " | MOKeys";
-                    document.getElementById('p-title').textContent = product.nom;
-                    
-                    // Validar si existe SKU antes de mostrarlo
-                    const skuElement = document.getElementById('p-sku');
-                    if(skuElement) skuElement.textContent = "REF: " + (product.sku || 'N/A');
-                    
-                    document.getElementById('p-desc').textContent = product.descripcio;
-                    document.getElementById('p-price').textContent = parseFloat(product.preu).toFixed(2) + "€";
-                    
-                    // Validar stock
-                    const stockElement = document.getElementById('p-stock');
-                    if(stockElement) stockElement.textContent = "Stock disponible: " + (product.estoc || 0);
-                    
-                    document.getElementById('p-image').src = product.img;
-                    document.getElementById('p-image').alt = product.nom;
-                    
-                    // 6. Cargar comentarios (función de comentarios.js)
-                    // Convertimos el ID a string para asegurar compatibilidad
-                    if (typeof loadComments === 'function') {
-                        loadComments(productId.toString());
-                    }
-                } else {
-                    document.querySelector('.product-detail-container').innerHTML = 
-                        "<h2>Producto no encontrado. <a href='index.html'>Volver al catálogo</a></h2>";
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                document.querySelector('.product-detail-container').innerHTML = 
-                    `<h2>Error cargando los detalles del producto.</h2><p>${error.message}</p>`;
-            }
-        });
-    </script>
+    <script src="js/detalle.js"></script>
 </body>
 </html>
