@@ -567,75 +567,109 @@ footer .footer-enlaces a:hover {
   color: white;
 }
 /* --- COMENTARIOS Y VALORACIONES --- */
+/* --- COMENTARIOS Y VALORACIONES (ESTILO LIGHT / CORPORATIVO) --- */
 
 /* Contenedor principal */
 .reviews-container {
-    grid-area: comentarios; /* Importante para el Grid del body */
+    grid-area: comentarios;
     max-width: 1000px;
     margin: 40px auto;
-    padding: 20px;
-    background-color: #1a1a1a; /* Fondo oscuro acorde a tu web */
-    color: white;
-    border-radius: 10px;
+    padding: 30px;
+    background-color: #FFFFFF; /* CAMBIO: Fondo Blanco */
+    color: #333333; /* CAMBIO: Texto oscuro */
+    border-radius: 15px; /* Redondeado igual que la caja de productos */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Sombra suave */
 }
 
 .reviews-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #333;
+    border-bottom: 2px solid #eaf2f2; /* Línea gris clara */
     padding-bottom: 15px;
     margin-bottom: 20px;
+}
+
+.reviews-header h2 {
+    color: #0e273f; /* Azul oscuro corporativo */
+    margin: 0;
 }
 
 .rating-number {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #ffc107;
+    color: #fa4841; /* CAMBIO: Naranja corporativo (antes amarillo) */
 }
 
-/* Formulario */
+.rating-count {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Caja del Formulario y Mensaje de Login */
 .review-form-card {
-    background-color: #252525;
-    padding: 20px;
+    background-color: #f8f9fa; /* Gris muy clarito para diferenciar */
+    padding: 25px;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
 }
 
+.review-form-card h3 {
+    color: #0e273f;
+    margin-top: 0;
+}
+
+/* Mensaje de "Debes iniciar sesión" */
+#login-required-message p {
+    color: #555; /* Texto visible sobre fondo claro */
+}
+
+/* Área de texto (Textarea) */
 .review-form-card textarea {
     width: 100%;
     height: 100px;
     margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #333;
-    border: 1px solid #444;
-    color: white;
-    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 12px;
+    background-color: #FFFFFF; /* Fondo blanco */
+    border: 2px solid #e0e0e0;
+    color: #333;
+    border-radius: 6px;
     resize: vertical;
+    font-family: "Rubik", sans-serif;
+    transition: border-color 0.3s;
 }
 
+.review-form-card textarea:focus {
+    outline: none;
+    border-color: #0e273f; /* Azul al escribir */
+}
+
+/* Botón de enviar */
 .btn-submit-review {
-    background-color: #fa4841; /* Tu color rojo corporativo */
+    background-color: #fa4841; /* Naranja corporativo */
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .btn-submit-review:hover {
-    background-color: #e03f39;
+    background-color: #d63a34; /* Un poco más oscuro al pasar el mouse */
 }
 
-/* Sistema de Estrellas */
+/* Sistema de Estrellas (Input) */
 .rate {
     display: flex;
-    flex-direction: row-reverse; /* Truco para el hover */
+    flex-direction: row-reverse;
     justify-content: flex-end;
     height: 46px;
     padding: 0;
+    margin-bottom: 10px;
 }
 .rate:not(:checked) > input {
     position: absolute;
@@ -648,58 +682,103 @@ footer .footer-enlaces a:hover {
     white-space: nowrap;
     cursor: pointer;
     font-size: 30px;
-    color: #555;
+    color: #ccc; /* Gris claro cuando no están marcadas */
 }
 .rate:not(:checked) > label:before {
     content: '★ ';
 }
 .rate > input:checked ~ label {
-    color: #ffc700;    
+    color: #fa4841;  /* CAMBIO: Naranja corporativo al seleccionar */
 }
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
+    color: #ff9e99;  /* Naranja suave al pasar el mouse */
 }
 
-/* Lista de Comentarios */
+/* Lista de Comentarios Individuales */
 .comment-item {
-    background: #252525;
-    padding: 15px;
+    background: #FFFFFF;
+    padding: 20px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border-left: 4px solid #ffc107;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid #fa4841; /* Borde izquierdo Naranja */
+    transition: transform 0.2s;
+}
+
+.comment-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .comment-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
-.user-name { font-weight: bold; color: #fff; }
-.comment-date { font-size: 0.85em; color: #aaa; }
-.comment-stars { color: #ffc700; }
-.comment-body { color: #ddd; }
+.user-name { 
+    font-weight: bold; 
+    color: #0e273f; /* Nombre en azul oscuro */
+    font-size: 1.1rem;
+}
+
+.comment-date { 
+    font-size: 0.85em; 
+    color: #888; 
+}
+
+.comment-stars { 
+    color: #fa4841; /* Estrellas naranjas en el comentario */
+    margin-left: 8px;
+}
+
+.comment-body { 
+    color: #555; 
+    line-height: 1.5;
+}
 
 .comment-footer {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
-    gap: 15px;
+    gap: 20px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 10px;
 }
 
+/* Botones de Like y Borrar */
 .btn-like {
     background: none;
     border: none;
     cursor: pointer;
-    color: #aaa;
+    color: #888;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    transition: color 0.2s;
 }
-.btn-like.liked { color: #fa4841; }
+
+.btn-like:hover {
+    color: #fa4841;
+}
+
+.btn-like.liked { 
+    color: #fa4841; 
+    font-weight: bold;
+}
+
 .btn-delete {
     background: none;
     border: none;
-    color: #ff4d4d;
+    color: #999;
     cursor: pointer;
     font-size: 0.9rem;
+    transition: color 0.2s;
 }
 
+.btn-delete:hover {
+    color: #fa4841; /* Rojo/Naranja al pasar el mouse */
+    text-decoration: underline;
+}
