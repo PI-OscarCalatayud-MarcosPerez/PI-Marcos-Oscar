@@ -6,7 +6,8 @@ body {
   width: 100%;
   background-color: #eaf2f2;
   display: grid;
-  grid-template-rows: 33px 92px auto 500px 500px 500px 382px 180px;
+  /* AÑADIDO: 'auto' extra antes de los 180px del footer */
+  grid-template-rows: 33px 92px auto 500px 500px 500px 382px auto 180px; 
   grid-template-columns: repeat(1, 1fr);
   grid-template-areas:
     "barra-aviso"
@@ -16,6 +17,7 @@ body {
     "carrusel2"
     "carrusel3"
     "categorias"
+    "comentarios" /* <--- NUEVA ÁREA AÑADIDA */
     "footer";
 }
 
@@ -564,3 +566,140 @@ footer .footer-enlaces a {
 footer .footer-enlaces a:hover {
   color: white;
 }
+/* --- COMENTARIOS Y VALORACIONES --- */
+
+/* Contenedor principal */
+.reviews-container {
+    grid-area: comentarios; /* Importante para el Grid del body */
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #1a1a1a; /* Fondo oscuro acorde a tu web */
+    color: white;
+    border-radius: 10px;
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.rating-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffc107;
+}
+
+/* Formulario */
+.review-form-card {
+    background-color: #252525;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.review-form-card textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.btn-submit-review {
+    background-color: #fa4841; /* Tu color rojo corporativo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-submit-review:hover {
+    background-color: #e03f39;
+}
+
+/* Sistema de Estrellas */
+.rate {
+    display: flex;
+    flex-direction: row-reverse; /* Truco para el hover */
+    justify-content: flex-end;
+    height: 46px;
+    padding: 0;
+}
+.rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+}
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #555;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+
+/* Lista de Comentarios */
+.comment-item {
+    background: #252525;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.user-name { font-weight: bold; color: #fff; }
+.comment-date { font-size: 0.85em; color: #aaa; }
+.comment-stars { color: #ffc700; }
+.comment-body { color: #ddd; }
+
+.comment-footer {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-like {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+.btn-like.liked { color: #fa4841; }
+.btn-delete {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+

@@ -1,0 +1,14 @@
+[
+    {
+        "id": "cmt_6929ce34a9895",
+        "product_id": "4",
+        "user_id": 1,
+        "username": "marcos",
+        "comment": "prueba",
+        "rating": 4,
+        "timestamp": "2025-11-28T16:30:44+00:00",
+        "likes": [
+            1
+        ]
+    }
+]

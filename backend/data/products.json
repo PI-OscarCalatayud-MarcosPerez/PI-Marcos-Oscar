@@ -1,84 +1,184 @@
 {
     "products": [
-        {
-            "id": 1,
-            "sku": "JUEGO-1",
-            "nom": "Super Mario Odyssey",
-            "descripcio": "Aventura de plataformas 3D para Nintendo Switch.",
-            "img": "img\/mario_odyssey.jpg",
-            "preu": 49.99,
-            "estoc": 50,
-            "categoria": "Plataformas"
-        },
-        {
-            "id": 2,
-            "sku": "JUEGO-2",
-            "nom": "Elden Ring",
-            "descripcio": "Juego de rol de acción de mundo abierto de FromSoftware.",
-            "img": "img\/elden_ring.jpg",
-            "preu": 59.95,
-            "estoc": 30,
-            "categoria": "RPG"
-        },
-        {
-            "id": 3,
-            "sku": "JUEGO-3",
-            "nom": "Stardew Valley",
-            "descripcio": "Simulador de granja y vida indie con elementos RPG.",
-            "img": "img\/stardew.jpg",
-            "preu": 14.99,
-            "estoc": 100,
-            "categoria": "Simulación"
-        },
-        {
-            "id": 4,
-            "sku": "JUEGO-4",
-            "nom": "Hades",
-            "descripcio": "Roguelite de acción trepidante basado en la mitología griega.",
-            "img": "img\/hades.jpg",
-            "preu": 24.99,
-            "estoc": 75,
-            "categoria": "Roguelite"
-        },
-        {
-            "id": 5,
-            "sku": "JUEGO-5",
-            "nom": "Cyberpunk 2077",
-            "descripcio": "RPG de mundo abierto y acción-aventura ambientado en Night City.",
-            "img": "img\/cyberpunk_2077.jpg",
-            "preu": 39.99,
-            "estoc": 40,
-            "categoria": "RPG"
-        },
-        {
-            "id": 6,
-            "sku": "JUEGO-6",
-            "nom": "The Witcher 3: Wild Hunt",
-            "descripcio": "RPG de mundo abierto con una historia profunda y misiones memorables.",
-            "img": "img\/witcher_3.jpg",
-            "preu": 29.99,
-            "estoc": 60,
-            "categoria": "RPG"
-        },
-        {
-            "id": 7,
-            "sku": "JUEGO-7",
-            "nom": "Resident Evil 4 (Remake)",
-            "descripcio": "Remake del clásico survival horror con gráficos y jugabilidad modernizados.",
-            "img": "img\/re4_remake.jpg",
-            "preu": 54.99,
-            "estoc": 25,
-            "categoria": "Survival Horror"
-        },
-        {
-            "id": 8,
-            "sku": "JUEGO-8",
-            "nom": "Hollow Knight",
-            "descripcio": "Aventura Metroidvania 2D dibujada a mano en un vasto reino de insectos.",
-            "img": "img\/hollow_knight.jpg",
-            "preu": 14.99,
-            "estoc": 80,
-            "categoria": "Metroidvania"
-        }
-    ]
+  {
+    "id": 1,
+    "sku": "JUEGO-1",
+    "nom": "Spider-Man 2",
+    "descripcio": "Los Spider-Men, Peter Parker y Miles Morales, regresan para una nueva y emocionante aventura en la aclamada franquicia Marvel’s Spider-Man. Balancéate, salta y utiliza las nuevas Alas de Telaraña para recorrer la Nueva York de Marvel.",
+    "img": "img/Spider-Man.webp",
+    "preu": 30.00,
+    "estoc": 100,
+    "categoria": "comprados"
+  },
+  {
+    "id": 2,
+    "sku": "JUEGO-2",
+    "nom": "Elden Ring",
+    "descripcio": "Levántate, Sinluz, y déjate guiar por la gracia para esgrimir el poder del Anillo de Elden y convertirte en un Señor de Elden en las Tierras Intermedias. Un enorme mundo lleno de emoción donde los campos abiertos y las inmensas mazmorras se conectan a la perfección.",
+    "img": "img/elden.webp",
+    "preu": 20.00,
+    "estoc": 50,
+    "categoria": "comprados"
+  },
+  {
+    "id": 3,
+    "sku": "JUEGO-3",
+    "nom": "FC 26",
+    "descripcio": "Siente cada momento con el sistema de juego más realista hasta la fecha. FC 26 te acerca al fútbol real con las mejores competiciones, equipos y jugadores del mundo.",
+    "img": "img/FC.webp",
+    "preu": 32.00,
+    "estoc": 200,
+    "categoria": "comprados"
+  },
+  {
+    "id": 4,
+    "sku": "JUEGO-4",
+    "nom": "BATTLEFIELD 6",
+    "descripcio": "Regresa a la guerra total con mapas masivos, condiciones climáticas dinámicas y una destrucción de entornos nunca vista.",
+    "img": "img/battel.jpeg",
+    "preu": 40.00,
+    "estoc": 80,
+    "categoria": "comprados"
+  },
+  {
+    "id": 5,
+    "sku": "JUEGO-5",
+    "nom": "Silksong",
+    "descripcio": "Juega como Hornet, la princesa protectora de Hallownest, y aventúrate a través de un reino completamente nuevo gobernado por la seda y la canción.",
+    "img": "img/silksong.webp",
+    "preu": 17.00,
+    "estoc": 150,
+    "categoria": "comprados"
+  },
+  {
+    "id": 6,
+    "sku": "JUEGO-6",
+    "nom": "Hades 2",
+    "descripcio": "Lucha más allá del Inframundo utilizando hechicería oscura para enfrentarte al Titán del Tiempo en esta fascinante secuela del galardonado roguelike.",
+    "img": "img/Hades2.webp",
+    "preu": 32.00,
+    "estoc": 60,
+    "categoria": "comprados"
+  },
+  {
+    "id": 7,
+    "sku": "JUEGO-7",
+    "nom": "R.E.P.O",
+    "descripcio": "Sobrevive en un mundo hostil donde cada recurso cuenta. R.E.P.O te pone al límite en una experiencia de terror psicológico.",
+    "img": "img/repo.webp",
+    "preu": 6.00,
+    "estoc": 30,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 8,
+    "sku": "JUEGO-8",
+    "nom": "PEAK",
+    "descripcio": "Un juego de escalada desafiante donde la física y la paciencia son tus únicas herramientas para alcanzar la cumbre.",
+    "img": "img/peak.jpeg",
+    "preu": 8.00,
+    "estoc": 45,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 9,
+    "sku": "JUEGO-9",
+    "nom": "Silent Hill F",
+    "descripcio": "Una historia completamente nueva ambientada en el Japón de los años 60, con un mundo hermoso pero aterrador.",
+    "img": "img/silenthillf.jpeg",
+    "preu": 45.00,
+    "estoc": 20,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 10,
+    "sku": "JUEGO-10",
+    "nom": "Monster Hunter Wilds",
+    "descripcio": "La próxima generación de la caza de monstruos. Ecosistemas vivos, criaturas más inteligentes y un mundo abierto sin interrupciones.",
+    "img": "img/MonsterHunterWilds.jpeg",
+    "preu": 49.00,
+    "estoc": 75,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 11,
+    "sku": "JUEGO-11",
+    "nom": "Borderlands 4",
+    "descripcio": "Vuelve el padre de los looter-shooters. Nuevos buscacámaras, nuevos mundos y, por supuesto, más armas de las que puedes contar.",
+    "img": "img/Borderlands4.jpeg",
+    "preu": 53.00,
+    "estoc": 90,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 12,
+    "sku": "JUEGO-12",
+    "nom": "NBA 2K26",
+    "descripcio": "Vive la cultura de la NBA como nunca antes. Juega en los modos MyCAREER, MyTEAM y MyNBA con las estrellas actuales y las leyendas.",
+    "img": "img/nba2k26.jpeg",
+    "preu": 35.00,
+    "estoc": 120,
+    "categoria": "ofertas"
+  },
+  {
+    "id": 13,
+    "sku": "SOFT-1",
+    "nom": "Gemini",
+    "descripcio": "Asistente de IA conversacional avanzado desarrollado por Google, diseñado para ser multimodal y ayudarte en tareas complejas.",
+    "img": "img/gemini.jpeg",
+    "preu": 15.00,
+    "estoc": 999,
+    "categoria": "nuevos"
+  },
+  {
+    "id": 14,
+    "sku": "SOFT-2",
+    "nom": "ChatGPT",
+    "descripcio": "La IA que revolucionó el mundo. Conversa, crea contenido y resuelve problemas con el modelo de lenguaje más popular.",
+    "img": "img/chatgpt.jpg",
+    "preu": 18.00,
+    "estoc": 999,
+    "categoria": "nuevos"
+  },
+  {
+    "id": 15,
+    "sku": "SOFT-3",
+    "nom": "Perplexity AI",
+    "descripcio": "Un motor de respuestas impulsado por IA que proporciona respuestas precisas y citadas sobre cualquier tema.",
+    "img": "img/perplexity.jpeg",
+    "preu": 15.00,
+    "estoc": 999,
+    "categoria": "nuevos"
+  },
+  {
+    "id": 16,
+    "sku": "SOFT-4",
+    "nom": "Adobe Creative Cloud",
+    "descripcio": "Accede a toda la colección de aplicaciones creativas de Adobe, incluyendo Photoshop, Illustrator, Premiere Pro y más.",
+    "img": "img/adobe.png",
+    "preu": 20.00,
+    "estoc": 999,
+    "categoria": "nuevos"
+  },
+  {
+    "id": 17,
+    "sku": "SOFT-5",
+    "nom": "Windows 11",
+    "descripcio": "Te acerca a lo que amas. Windows 11 tiene herramientas fáciles de usar que te pueden ayudar a optimizar el espacio de tu pantalla.",
+    "img": "img/windows11.jpg",
+    "preu": 99.00,
+    "estoc": 500,
+    "categoria": "nuevos"
+  },
+  {
+    "id": 18,
+    "sku": "SOFT-6",
+    "nom": "Microsoft 365",
+    "descripcio": "Potencia tu productividad con aplicaciones como Word, Excel, PowerPoint y Teams, todo en una sola suscripción.",
+    "img": "img/office365.jpeg",
+    "preu": 59.00,
+    "estoc": 500,
+    "categoria": "nuevos"
+  }
+]
 }
