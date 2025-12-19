@@ -17,11 +17,10 @@ body {
     "carrusel2"
     "carrusel3"
     "categorias"
-    "comentarios" /* <--- NUEVA ÁREA AÑADIDA */
+    "comentarios" 
     "footer";
 }
 
-/* --- BARRA DE AVISO --- */
 .aviso-slider {
   grid-area: barra-aviso;
   background-color: #515151; 
@@ -45,7 +44,6 @@ body {
   box-sizing: border-box; 
 }
 
-/* --- LOS KEYFRAMES  --- */
 @keyframes slide-avisos {
   0% { transform: translateY(0); }
   30% { transform: translateY(0); }

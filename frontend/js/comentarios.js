@@ -79,21 +79,40 @@ function renderComments(comments) {
     });
 }
 
-// 3. Calcular estadísticas (Media y total)
 function updateStats(comments) {
     const total = comments ? comments.length : 0;
+    
+    // 1. Actualizar el número total de opiniones
     const totalEl = document.getElementById('total-reviews');
     if(totalEl) totalEl.textContent = total;
     
+    // 2. Calcular la media numérica
     const avgEl = document.getElementById('average-rating');
-    if (avgEl) {
-        if (total > 0) {
-            const sum = comments.reduce((acc, c) => acc + c.rating, 0);
-            const avg = (sum / total).toFixed(1);
-            avgEl.textContent = avg;
-        } else {
-            avgEl.textContent = '--';
+    let average = 0;
+
+    if (total > 0) {
+        const sum = comments.reduce((acc, c) => acc + c.rating, 0);
+        average = (sum / total);
+        if(avgEl) avgEl.textContent = average.toFixed(1);
+    } else {
+        if(avgEl) avgEl.textContent = '--';
+    }
+
+    // 3. PINTAR LAS ESTRELLAS EN EL RESUMEN (¡Esta es la parte nueva!)
+    const starsContainer = document.querySelector('.rating-stars');
+    if (starsContainer) {
+        let starsHtml = '';
+        // Creamos 5 estrellas
+        for (let i = 1; i <= 5; i++) {
+            // Si el índice es menor o igual a la media redondeada, es dorada
+            if (i <= Math.round(average)) {
+                starsHtml += '<span class="filled">★</span>';
+            } else {
+                // Si no, es normal (gris por CSS)
+                starsHtml += '<span>★</span>'; 
+            }
         }
+        starsContainer.innerHTML = starsHtml;
     }
 }
 
