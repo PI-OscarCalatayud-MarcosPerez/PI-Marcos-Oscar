@@ -1,344 +1,156 @@
 /* =========================================
-   1. ESTILOS GENERALES
+   ESTILOS EXCLUSIVOS DEL FORMULARIO
+   (El Header y Footer se cargan desde style.css)
    ========================================= */
-body {
-  font-family: "Rubik", sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  background-color: #eaf2f2;
-}
 
-/* =========================================
-   2. BARRA DE AVISO (ANIMADA)
-   ========================================= */
-.aviso-slider {
-  grid-area: barra-aviso;
-  background-color: #515151; 
-  width: 100%;
-  overflow: hidden; 
-  height: 33px; 
-}
-
-.aviso-slider-content {
-  animation: slide-avisos 9s infinite;
-}
-
-.aviso-slider-content div {
-  margin: 0;
-  padding: 6px 0;
-  text-align: center;
-  color: white;
-  font-size: 18px;
-  font-weight: normal;
-  height: 33px; 
-  box-sizing: border-box; 
-}
-
-@keyframes slide-avisos {
-  0%, 30% { transform: translateY(0); }
-  33.3%, 63.3% { transform: translateY(-33px); }
-  66.6%, 97% { transform: translateY(-66px); }
-  100% { transform: translateY(-99px); }
-}
-
-/* =========================================
-   3. HEADER (CABECERA)
-   ========================================= */
-header {
-  grid-area: header;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: 92px;
-  grid-template-areas: "header-img header-nav header-busqueda";
-  align-items: center;
-  background-color: #0e273f;
-  margin: 0;
-  padding: 0 100px;
-  box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 3; 
-}
-
-/* Logo Header */
-header img {
-  grid-area: header-img;
-  height: 80px;
-  width: 215px;
-}
-
-/* Iconos (Usuario y Carrito) */
-.users {
-  grid-area: header-busqueda;
-  height: 37px;
-  width: 71px;
-  position: relative;
-  left: 230px;
-  /* IMPORTANTE: ../img/ significa subir una carpeta para buscar img */
-  background-image: url("../img/usuario.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  transition: background-image 0.2s ease-in-out;
-}
-
-.carro {
-  grid-area: header-busqueda;
-  height: 33px;
-  width: 37px;
-  position: relative;
-  left: 300px;
-  background-image: url("../img/carrito.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  transition: background-image 0.2s ease-in-out;
-}
-
-.users:hover { background-image: url("../img/usuario1.png"); cursor: pointer; }
-.carro:hover { background-image: url("../img/carrito1.png"); cursor: pointer; }
-
-/* Navegación */
-header nav {
-  grid-area: header-nav;
-  justify-self: center;
-}
-
-.enlaces_navegacion {
-  display: grid;
-  grid-auto-flow: column;
-  gap: 30px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.enlaces_navegacion a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-  font-size: 1.8em;
-}
-
-/* Buscador */
-.busqueda {
-  grid-area: header-busqueda;
-  margin: 0;
-}
-
-.busqueda input {
-  width: 250px;
-  height: 40px;
-  font-size: 18px;
-  padding: 8px 15px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  position: relative;
-  left: -100px;
-}
-
-/* =========================================
-   4. GRID ESPECÍFICO PARA PÁGINA DE CONTACTO
-   ========================================= */
-body.pagina-contacto {
-    display: grid;
-    /* 4 filas: Aviso / Header / Contenido central / Footer */
-    grid-template-rows: 33px 92px 1fr auto;
-    grid-template-columns: 100%;
-    grid-template-areas:
-      "barra-aviso"
-      "header"
-      "contenido-form"
-      "footer";
-    min-height: 100vh; /* Ocupa toda la pantalla */
-}
-
-/* Centrado del formulario */
+/* Contenedor para centrar el formulario y separarlo del header fijo */
 .contenedor-formulario-principal {
-    grid-area: contenido-form;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 20px;
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Ajustamos el padding para que no se pegue al header ni al footer */
+  padding: 40px 20px;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px; /* Espacio extra por el header fijo */
 }
 
-/* =========================================
-   5. ESTILO VISUAL DEL FORMULARIO
-   ========================================= */
+/* La caja blanca del formulario */
 .caja-formulario {
-    background-color: #FFFFFF;
-    width: 100%;
-    max-width: 550px;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(14, 39, 63, 0.15);
-    box-sizing: border-box;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 550px; /* Ancho máximo para que se vea bien */
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(14, 39, 63, 0.15);
+  box-sizing: border-box;
 }
 
-.caja-formulario h1 {
-    color: #0e273f;
-    margin-top: 0;
-    margin-bottom: 10px;
-    text-align: center;
+.caja-formulario h1,
+.caja-formulario h2 {
+  color: #0e273f;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .subtitulo-form {
-    text-align: center;
-    color: #666;
-    margin-bottom: 30px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
 }
 
-/* Inputs */
+/* --- Inputs y Etiquetas --- */
 .grupo-input {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .grupo-input label {
-    font-weight: bold;
-    color: #0e273f;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+  font-weight: bold;
+  color: #0e273f;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
 .grupo-input input,
 .grupo-input select,
 .grupo-input textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    font-family: "Rubik", sans-serif;
-    font-size: 1rem;
-    color: #333;
-    background-color: #f9f9f9;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
+/* Efecto al hacer clic (Foco) */
 .grupo-input input:focus,
 .grupo-input select:focus,
 .grupo-input textarea:focus {
-    border-color: #0e273f;
-    outline: none;
-    background-color: #fff;
-    box-shadow: 0 0 0 4px rgba(14, 39, 63, 0.1);
+  border-color: #fa4841; /* Naranja */
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(250, 72, 65, 0.1);
 }
 
-/* Checkbox */
+/* --- Checkbox --- */
 .grupo-checkbox {
-    margin-top: 15px;
-    margin-bottom: 25px;
-    display: flex;
-    flex-direction: column;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 .grupo-checkbox label {
-    color: #333;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.grupo-checkbox input[type="checkbox"] {
-    accent-color: #fa4841;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-/* Botón Enviar */
-.btn-enviar {
-    width: 100%;
-    background-color: #fa4841;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-family: "Rubik", sans-serif;
-}
-
-.btn-enviar:hover {
-    background-color: #d63a34;
-    transform: translateY(-2px);
-}
-
-/* Mensajes de Error */
-.error {
-    color: #fa4841;
-    font-size: 0.85rem;
-    margin-top: 5px;
-    display: block;
-    font-weight: 600;
-}
-
-/* =========================================
-   6. FOOTER (PIE DE PÁGINA)
-   ========================================= */
-footer {
-  grid-area: footer;
-  background-color: #0e273f;
-  color: white;
-  padding: 40px 100px;
-  box-sizing: border-box;
-  display: grid;
-  align-items: center;
-}
-
-footer .footer-contenedor {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "logo  enlaces  suscripcion";
-  gap: 20px;
-  align-items: center;
-  width: 100%;
-}
-
-footer .footer-logo { grid-area: logo; }
-footer .footer-logo img { height: 60px; display: block; }
-
-footer .footer-suscripcion {
-  grid-area: suscripcion;
-  display: grid;
-  grid-auto-flow: column;
+  color: #333;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   gap: 10px;
 }
 
-footer .footer-suscripcion input {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 3px;
-  width: 220px;
-}
-
-footer .footer-suscripcion button {
-  background-color: #fa4841;
-  border: none;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 5px;
+.grupo-checkbox input[type="checkbox"] {
+  accent-color: #fa4841;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
+}
+
+/* --- Botón Enviar --- */
+.btn-enviar {
+  width: 100%;
+  background-color: #fa4841;
+  color: white;
   font-weight: bold;
+  font-size: 1.1rem;
+  padding: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: "Rubik", sans-serif;
 }
 
-footer .footer-enlaces {
-  grid-area: enlaces;
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  gap: 50px;
+.btn-enviar:hover {
+  background-color: #d63a34;
+  transform: translateY(-2px);
 }
 
-footer .footer-enlaces h4 { margin-bottom: 8px; font-size: 1em; color: white; }
-footer .footer-enlaces a { text-decoration: none; color: #ccc; font-size: 0.9em; }
+.btn-enviar:focus {
+  outline: 3px solid #0e273f;
+}
+
+/* --- Mensajes de Error --- */
+.error {
+  color: #fa4841;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+  font-weight: 600;
+}
+
+.caja-formulario p a {
+  color: #fa4841;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.caja-formulario p a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+  .caja-formulario {
+    padding: 20px;
+    box-shadow: none;
+    border: 1px solid #eee;
+  }
+}

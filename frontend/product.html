@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detalle del Producto | MOKeys</title>
     
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/productos.css" />
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="icon" type="image/png" href="img/icono.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/productos.css" />
 </head>
 <body>
 
-    <div class="aviso-slider" style="position: fixed; top: 0; z-index: 1000;">
+    <div class="aviso-slider">
       <div class="aviso-slider-content">
         <div>Clave de juegos con un 70% de descuento</div>
         <div>¡Nuevas ofertas cada día!</div>
@@ -21,35 +21,46 @@
       </div>
     </div>
 
-    <header style="position: fixed; top: 33px; width: 100%; z-index: 999;">
-      <img src="img/imagencolor.webp" alt="Logo" />
-      <a href="/backend/auth/cuenta.php" class="users"></a>
-      <a href="#" class="carro"></a>
-      <nav>
-        <ul class="enlaces_navegacion">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="">Comprar</a></li>
-          <li><a href="">Vender</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-          <li><a href="formulario.html">Subir productos</a></li>
-        </ul>
-      </nav>
-      <form class="busqueda" action="#" method="get">
-        <input type="text" placeholder="Buscar producto..." name="q" />
-      </form>
+    <header>
+      <div class="nav-container">
+        <div class="logo-container">
+          <img src="img/imagencolor.webp" alt="Logo MOKeys" class="logo-img" />
+        </div>
+
+        <nav class="nav-links-container">
+          <ul class="enlaces_navegacion">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#">Comprar</a></li>
+            <li><a href="#">Vender</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="formulario.html">Subir</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-right">
+          <form class="busqueda" action="#" method="get">
+            <input type="text" placeholder="Buscar..." name="q" aria-label="Buscar producto"/>
+          </form>
+          <a href="/backend/auth/cuenta.php" class="users" aria-label="Usuario"></a>
+          <a href="#" class="carro" aria-label="Carrito"></a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
+        </div>
+      </div>
     </header>
 
-    <div class="product-main">
+    <div class="product-main" id="main-content">
         <main class="product-detail-container">
             <div class="product-image">
-                <img id="p-image" src="" alt="Cargando imagen...">
+                <img id="p-image" src="" alt="Cargando imagen..." />
             </div>
+
             <div class="product-info">
                 <h1 id="p-title">Cargando...</h1>
                 <span id="p-sku" class="product-sku">REF: --</span>
                 <p id="p-price" class="product-price">-- €</p>
                 <span id="p-stock" class="product-stock">Stock: --</span>
                 <p id="p-desc" class="product-desc"></p>
+                
                 <button class="btn-buy-large">Añadir al Carrito 🛒</button>
             </div>
         </main>
@@ -63,11 +74,9 @@
                     <div class="rating-count">Basado en <span id="total-reviews">0</span> opiniones</div>
                 </div>
             </div>
-            
-            <div id="login-required-message" class="review-form-card" style="display:none; text-align:center; padding: 40px;">
-                <p style="font-size: 1.2rem; color: #ccc;">
-                    Debes <a href="login.html" style="color:#fa4841; font-weight:bold; text-decoration:none;">iniciar sesión</a> para dejar tu valoración.
-                </p>
+
+            <div id="login-required-message" class="review-form-card" style="display:none;">
+                <p style="text-align:center;">Debes <a href="login.html" style="color:#fa4841;">iniciar sesión</a> para dejar tu valoración.</p>
             </div>
 
             <div id="comment-form-container" class="review-form-card" style="display:none;">
@@ -81,30 +90,49 @@
                         <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="2 estrellas">★</label>
                         <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="1 estrella">★</label>
                     </div>
-                    <textarea id="comment-text" placeholder="¿Qué te ha parecido el juego? Cuéntanos tu experiencia..." required></textarea>
+                    <textarea id="comment-text" placeholder="¿Qué te ha parecido el juego?" required></textarea>
                     <button type="submit" class="btn-submit-review">Publicar Opinión</button>
                 </form>
             </div>
-        
+
             <div class="reviews-list" id="comments-list">
-                <p style="color: #aaa; text-align: center;">Cargando opiniones...</p>
+                <p style="text-align: center; color: #777;">Cargando opiniones...</p>
             </div>
         </section>
     </div>
 
+    <div class="container mt-3" style="max-width: 1200px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html" style="color:#fa4841; text-decoration:none;">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-name">Producto</li>
+            </ol>
+        </nav>
+    </div>
+
     <footer>
-      <div class="footer-contenedor">
-        <div class="footer-logo"><img src="img/imagensincolor.png" alt="MOKeys" /></div>
-        <div class="footer-suscripcion">
-          <input type="email" placeholder="Email address" />
-          <button>Comprar ahora</button>
-        </div>
-        <div class="footer-enlaces">
-          <div>
-            <h4>Help</h4><a href="#">FAQ</a><br /><a href="#">Customer service</a>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
+            <img src="img/imagensincolor.png" alt="MOKeys" class="footer-logo-img" />
           </div>
-          <div>
-            <h4>Other</h4><a href="#">Privacy Policy</a><br /><a href="#">Sitemap</a>
+          <div class="col-md-6 text-center mb-4 mb-md-0">
+            <div class="d-flex justify-content-center gap-5 footer-enlaces">
+              <div class="text-start">
+                <h6 class="text-uppercase fw-bold text-white">Help</h6>
+                <a href="#">FAQ</a><br /><a href="#">Service</a><br /><a href="#">Guides</a>
+              </div>
+              <div class="text-start">
+                <h6 class="text-uppercase fw-bold text-white">Other</h6>
+                <a href="#">Privacy</a><br /><a href="#">Sitemap</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group">
+              <input type="email" class="form-control" placeholder="Email address" aria-label="Email" />
+              <button class="btn btn-danger" type="button">Comprar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -112,5 +140,19 @@
 
     <script src="js/comentarios.js"></script>
     <script src="js/detalle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+      const menuToggle = document.getElementById("menuToggle");
+      const navLinks = document.querySelector(".nav-links-container");
+
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+          menuToggle.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
+          menuToggle.setAttribute("aria-expanded", navLinks.classList.contains("active"));
+        });
+      }
+    </script>
 </body>
 </html>

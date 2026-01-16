@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MOKeys | Inicio</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/png" href="img/icono.png" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
     <div class="aviso-slider">
@@ -18,28 +22,63 @@
     </div>
 
     <header>
-      <img src="img/imagencolor.webp" alt="Logo" />
+      <div class="container-fluid px-md-5">
+        <div class="nav-container">
+          <img
+            src="img/imagencolor.webp"
+            alt="Logotipo MOKeys"
+            class="logo-img"
+          />
 
-      <a href="/backend/auth/cuenta.php" class="users"></a>
-      <a href="#" class="carro"></a>
+          <nav id="navLinks" aria-label="Menú principal">
+            <ul class="enlaces_navegacion">
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="#">Comprar</a>Bienvenidos</li>
+              <li><a href="#">Vender</a></li>
+              <li><a href="contacto.html">Contacto</a></li>
+              <li><a href="formulario.html">Subir</a></li>
+            </ul>
+          </nav>
 
-      <nav>
-        <ul class="enlaces_navegacion">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="#">Comprar</a></li>
-          <li><a href="#">Vender</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-          <li><a href="formulario.html">Subir productos</a></li>
-        </ul>
-      </nav>
-      <form class="busqueda" action="#" method="get">
-        <input type="text" placeholder="Buscar producto..." name="q" />
-      </form>
+          <div class="d-flex align-items-center gap-3">
+            <form
+              class="busqueda d-none d-md-block"
+              action="#"
+              method="get"
+              role="search"
+            >
+              <input
+                type="text"
+                placeholder="Buscar producto..."
+                name="q"
+                aria-label="Buscar producto"
+              />
+            </form>
+
+            <a
+              href="/backend/auth/cuenta.php"
+              class="users"
+              aria-label="Perfil de usuario"
+            ></a>
+            <a href="#" class="carro" aria-label="Carrito de compras"></a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+              ☰
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <div class="inicio-container">
       <div class="video-background">
-        <video autoplay muted loop playsinline>
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          aria-label="Video ambiental de introducción a videojuegos"
+        >
           <source src="videos/introduccion.mp4" type="video/mp4" />
           Tu navegador no soporta la etiqueta de video.
         </video>
@@ -57,80 +96,233 @@
       </div>
     </div>
 
-    <div class="carousel-container carrusel-comprados">
-      <h2>Juegos más comprados</h2>
-      <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-      <div class="carousel" id="lista-comprados"></div>
-      <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
-    </div>
+    <main class="container-fluid px-0" id="main-content" role="main">
+      <h2 class="section-title">Juegos más comprados</h2>
+      <div
+        class="custom-carousel-container"
+        role="region"
+        aria-label="Juegos más comprados"
+      >
+        <button
+          class="nav-btn prev-btn"
+          onclick="scrollCarousel('lista-comprados', -1)"
+          aria-label="Ver anteriores"
+        >
+          <img src="img/izquierda.png" alt="" />
+        </button>
 
-    <div class="carousel-container carrusel-ofertas">
-      <h2>Mejores Ofertas</h2>
-      <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-      <div class="carousel" id="lista-ofertas"></div>
-      <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
-    </div>
+        <div
+          class="carousel-track carousel"
+          id="lista-comprados"
+          tabindex="-1"
+        ></div>
 
-    <div class="carousel-container carrusel-nuevos">
-      <h2>Software Clave y Plataformas de IA</h2>
-      <button class="prev"><img src="img/izquierda.png" alt="Anterior" /></button>
-      <div class="carousel" id="lista-nuevos"></div>
-      <button class="next"><img src="img/derecha.png" alt="Siguiente" /></button>
-    </div>
+        <button
+          class="nav-btn next-btn"
+          onclick="scrollCarousel('lista-comprados', 1)"
+          aria-label="Ver siguientes"
+        >
+          <img src="img/derecha.png" alt="" />
+        </button>
+      </div>
 
-    <div class="categorias">
-      <h2>Lo mejor del gaming, por categorías</h2>
-      <div class="botones-categorias">
-        <div class="fila">
-          <button class="categoria">Acción 🎮</button>
-          <button class="categoria">Puzzle 🧩</button>
-          <button class="categoria">Deportes ⚽</button>
-          <button class="categoria">RPG 🧙‍♂️</button>
-          <button class="categoria">Arcade 🕹️</button>
-          <button class="categoria">Online 👥</button>
-          <button class="categoria">Carreras 🏎️</button>
-          <button class="categoria">Estrategia ♟️</button>
+      <h2 class="section-title">Mejores Ofertas</h2>
+      <div
+        class="custom-carousel-container"
+        role="region"
+        aria-label="Mejores ofertas"
+      >
+        <button
+          class="nav-btn prev-btn"
+          onclick="scrollCarousel('lista-ofertas', -1)"
+          aria-label="Ver anteriores"
+        >
+          <img src="img/izquierda.png" alt="" />
+        </button>
+
+        <div
+          class="carousel-track carousel"
+          id="lista-ofertas"
+          tabindex="-1"
+        ></div>
+
+        <button
+          class="nav-btn next-btn"
+          onclick="scrollCarousel('lista-ofertas', 1)"
+          aria-label="Ver siguientes"
+        >
+          <img src="img/derecha.png" alt="" />
+        </button>
+      </div>
+
+      <h2 class="section-title">Software Clave y Plataformas de IA</h2>
+      <div
+        class="custom-carousel-container"
+        role="region"
+        aria-label="Software e IA"
+      >
+        <button
+          class="nav-btn prev-btn"
+          onclick="scrollCarousel('lista-nuevos', -1)"
+          aria-label="Ver anteriores"
+        >
+          <img src="img/izquierda.png" alt="" />
+        </button>
+
+        <div
+          class="carousel-track carousel"
+          id="lista-nuevos"
+          tabindex="-1"
+        ></div>
+
+        <button
+          class="nav-btn next-btn"
+          onclick="scrollCarousel('lista-nuevos', 1)"
+          aria-label="Ver siguientes"
+        >
+          <img src="img/derecha.png" alt="" />
+        </button>
+      </div>
+
+      <section class="categorias-section" aria-label="Categorías">
+        <div class="container">
+          <h2 class="text-center mb-5 fs-1">
+            Lo mejor del gaming, por categorías
+          </h2>
+          <div class="row row-cols-2 row-cols-md-4 row-cols-lg-8 g-4">
+            <div class="col">
+              <button class="categoria-btn">Acción 🎮</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Puzzle 🧩</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Deportes ⚽</button>
+            </div>
+            <div class="col"><button class="categoria-btn">RPG 🧙‍♂️</button></div>
+            <div class="col">
+              <button class="categoria-btn">Arcade 🕹️</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Online 👥</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Carreras 🏎️</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Estrategia ♟️</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Terror 👻</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Simulación 🛩️</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Survival 🧟‍♂️</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Shooter 🔫</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Platf. 🧗</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Musical 🎵</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Educa. 📚</button>
+            </div>
+            <div class="col">
+              <button class="categoria-btn">Retro 👾</button>
+            </div>
+          </div>
         </div>
-        <div class="fila">
-          <button class="categoria">Simulación 🛩️</button>
-          <button class="categoria">Terror 👻</button>
-          <button class="categoria">Supervivencia 🧟‍♂️</button>
-          <button class="categoria">Shooter 🔫</button>
-          <button class="categoria">Plataformas 🧗</button>
-          <button class="categoria">Musical 🎵</button>
-          <button class="categoria">Educativos 📚</button>
-          <button class="categoria">Retro 👾</button>
-        </div>
+      </section>
+    </main>
+
+    <div class="container-fluid breadcrumb-container">
+      <div class="container px-md-5">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" id="breadcrumbs-list">
+            <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+          </ol>
+        </nav>
       </div>
     </div>
 
     <footer>
-      <div class="footer-contenedor">
-        <div class="footer-logo">
-          <img src="img/imagensincolor.png" alt="MOKeys" />
-        </div>
-
-        <div class="footer-suscripcion">
-          <input type="email" placeholder="Insert your email address here" />
-          <button>Comprar ahora</button>
-        </div>
-
-        <div class="footer-enlaces">
-          <div>
-            <h4>Help</h4>
-            <a href="#">FAQ</a><br />
-            <a href="#">Customer service</a><br />
-            <a href="#">How to guides</a>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
+            <img
+              src="img/imagensincolor.png"
+              alt="MOKeys"
+              class="footer-logo-img"
+            />
           </div>
-          <div>
-            <h4>Other</h4>
-            <a href="#">Privacy Policy</a><br />
-            <a href="#">Sitemap</a>
+          <div class="col-md-6 text-center mb-4 mb-md-0">
+            <div class="d-flex justify-content-center gap-5 footer-enlaces">
+              <div class="text-start">
+                <h6 class="text-uppercase fw-bold text-white">Help</h6>
+                <a href="#">FAQ</a><br /><a href="#">Service</a><br /><a
+                  href="#"
+                  >Guides</a
+                >
+              </div>
+              <div class="text-start">
+                <h6 class="text-uppercase fw-bold text-white">Other</h6>
+                <a href="#">Privacy</a><br /><a href="#">Sitemap</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email address"
+                aria-label="Correo electrónico"
+              />
+              <button class="btn btn-danger" type="button">Comprar</button>
+            </div>
           </div>
         </div>
       </div>
     </footer>
 
     <script src="js/inicio.js"></script>
+
+    <script>
+      // Scroll manual
+      function scrollCarousel(trackId, direction) {
+        const track = document.getElementById(trackId);
+        const item = track.querySelector(".item");
+        // Ajuste de scroll + margen
+        const scrollAmount = item ? item.offsetWidth + 20 : 300;
+
+        track.scrollBy({
+          left: direction * scrollAmount,
+          behavior: "smooth",
+        });
+      }
+
+      // Menú Hamburguesa
+      const menuToggle = document.getElementById("menuToggle");
+      const navLinks = document.querySelector(".enlaces_navegacion");
+
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+        menuToggle.textContent = navLinks.classList.contains("active")
+          ? "✕"
+          : "☰";
+
+        // Accesibilidad
+        const expanded = navLinks.classList.contains("active");
+        menuToggle.setAttribute("aria-expanded", expanded);
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

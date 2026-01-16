@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.title = product.nom + " | MOKeys";
             document.getElementById('p-title').textContent = product.nom;
             
+            // --- ACTUALIZAR MIGA DE PAN ---
+            const breadcrumbName = document.getElementById('breadcrumb-name');
+            if(breadcrumbName) breadcrumbName.textContent = product.nom;
+            // ------------------------------
+
             const skuElement = document.getElementById('p-sku');
             if(skuElement) skuElement.textContent = "REF: " + (product.sku || 'N/A');
             
